@@ -4,7 +4,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
   test "should post create" do
     name = 'test_name_1'
     password = 'test_password'
-    email = 'email_1'
+    email = 'email_1@example.com'
     post api_user_create_url, params: {
         'name': name,
         'password': password,
@@ -22,7 +22,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
 
     name = 'test_name_1'
     password = 'test_password'
-    email = 'email_2'
+    email = 'email_2@example.com'
     post api_user_create_url, params: {
         'name': name,
         'password': password,
@@ -35,7 +35,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     
     name = 'test_name_2'
     password = 'test_password'
-    email = 'email_1'
+    email = 'email_1@example.com'
     post api_user_create_url, params: {
         'name': name,
         'password': password,
@@ -53,7 +53,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     # ユーザを作成
     name = 'test_name_1'
     password = 'test_password'
-    email = 'email_1'
+    email = 'email_1@example.com'
     post api_user_create_url, params: {
       'name': name,
       'password': password,
