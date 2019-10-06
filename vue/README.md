@@ -1,4 +1,4 @@
-# frontend
+# kotobalog
 
 > A Vue.js project
 
