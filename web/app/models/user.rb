@@ -15,4 +15,9 @@ class User < ApplicationRecord
         token = AccessToken.find_by(user: self)
         return token.check(token_str)
     end
+
+    def check_refresh_token(token_str)
+        token = RefreshToken.find_by(user: self)
+        return token.check(token_str)
+    end
 end

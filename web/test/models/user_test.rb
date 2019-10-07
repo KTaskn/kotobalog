@@ -60,4 +60,16 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.check_access_token('other string')
   end
 
+  test "user check_refresh_token" do
+    name = 'test_name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    user = User.create(name: name, password: password, email: email)
+    user.save()
+
+    token_1 = RefreshToken.refresh(user)
+    assert user.check_refresh_token(token_1.token)
+    assert_not user.check_refresh_token('other string')
+  end
+
 end
