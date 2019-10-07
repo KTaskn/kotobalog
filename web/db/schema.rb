@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_085054) do
+ActiveRecord::Schema.define(version: 2019_10_07_112648) do
+
+  create_table "access_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "token", null: false
+    t.datetime "expiration", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_access_tokens_on_user_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -20,4 +29,5 @@ ActiveRecord::Schema.define(version: 2019_10_06_085054) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "access_tokens", "users"
 end
