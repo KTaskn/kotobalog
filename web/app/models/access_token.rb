@@ -26,4 +26,12 @@ class AccessToken < ApplicationRecord
 
     return token
   end
+
+  def check(token_str)
+    return self.token == token_str
+  end
+
+  def remove
+    return self.destroy()
+  end
 end

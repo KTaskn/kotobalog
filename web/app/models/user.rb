@@ -10,4 +10,9 @@ class User < ApplicationRecord
         with: VALID_EMAIL_REGEX,
         maximum: 255
     }
+
+    def check_access_token(token_str)
+        token = AccessToken.find_by(user: self)
+        return token.check(token_str)
+    end
 end
