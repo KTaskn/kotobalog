@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  book: one
+  user: one
+  sentence: MyString
+  registration_date: 2019-10-09 13:13:47
+
+two:
+  book: two
+  user: two
+  sentence: MyString
+  registration_date: 2019-10-09 13:13:47
