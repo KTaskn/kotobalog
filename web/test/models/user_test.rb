@@ -55,6 +55,8 @@ class UserTest < ActiveSupport::TestCase
     user = User.create(name: name, password: password, email: email)
     user.save()
 
+    assert_not user.check_access_token('other string')
+
     token_1 = AccessToken.refresh(user)
     assert user.check_access_token(token_1.token)
     assert_not user.check_access_token('other string')
@@ -67,9 +69,45 @@ class UserTest < ActiveSupport::TestCase
     user = User.create(name: name, password: password, email: email)
     user.save()
 
+    assert_not user.check_refresh_token('other string')
+
     token_1 = RefreshToken.refresh(user)
     assert user.check_refresh_token(token_1.token)
     assert_not user.check_refresh_token('other string')
+  end
+
+  test "login and logout" do
+    name = 'test_name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    user = User.create(name: name, password: password, email: email)
+    user.save()
+
+    result, access_token, refresh_token = user.login(password)
+    assert result
+    assert user.check_access_token(access_token.token)
+    assert user.check_refresh_token(refresh_token.token)
+    assert AccessToken.find_by(user: user)
+    assert RefreshToken.find_by(user: user)
+
+    user.logout()
+    assert_not AccessToken.find_by(user: user)
+    assert_not RefreshToken.find_by(user: user)
+  end
+
+  test "login bad unmatch password" do
+    name = 'test_name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    user = User.create(name: name, password: password, email: email)
+    user.save()
+
+    result, access_token, refresh_token = user.login('other password')
+    assert_not result
+    assert_not access_token
+    assert_not refresh_token
+    assert_not AccessToken.find_by(user: user)
+    assert_not RefreshToken.find_by(user: user)
   end
 
 end

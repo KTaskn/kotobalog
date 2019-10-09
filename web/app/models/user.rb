@@ -13,11 +13,35 @@ class User < ApplicationRecord
 
     def check_access_token(token_str)
         token = AccessToken.find_by(user: self)
-        return token.check(token_str)
+        if token then
+            return token.check(token_str)
+        else
+            return false
+        end
+            
     end
 
     def check_refresh_token(token_str)
         token = RefreshToken.find_by(user: self)
-        return token.check(token_str)
+        if token then
+            return token.check(token_str)
+        else
+            return false
+        end
+    end
+
+    def login(password)
+        if self.authenticate(password) then
+            return true, AccessToken.refresh(self), RefreshToken.refresh(self)
+        else
+            return false, nil, nil
+        end
+    end
+
+    def logout()
+        access_token = AccessToken.find_by(user: self)
+        access_token.remove()
+        refresh_token = RefreshToken.find_by(user: self)
+        refresh_token.remove()
     end
 end

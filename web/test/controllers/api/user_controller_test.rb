@@ -60,7 +60,6 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
       'email': email
     }
 
-
     post api_user_login_url, params: {
       name: name,
       password: password
@@ -69,6 +68,34 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     json = JSON.parse(response.body)
     assert_response :success
     assert json['result']
+    assert User.find_by(name: name).check_access_token(json['access_token'])
+    assert User.find_by(name: name).check_refresh_token(json['refresh_token'])
+
+
+    post api_user_logout_url params: {
+      name: name,
+      access_token: json['access_token']
+    }
+    assert_response :success
+    assert_not User.find_by(name: name).check_access_token(json['access_token'])
+    assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
+  end
+
+  test "login bad pattern" do
+    # ユーザを作成
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_create_url, params: {
+      'name': name,
+      'password': password,
+      'email': email
+    }
+
+    post api_user_login_url, params: {
+      name: name,
+      password: password
+    }
 
     post api_user_login_url, params: {
       name: name,
@@ -77,7 +104,9 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     
     json = JSON.parse(response.body)
     assert_response :success
-    assert json['result'] == false
+    assert_not json['result']
+    assert_not User.find_by(name: name).check_access_token(json['access_token'])
+    assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
 
     post api_user_login_url, params: {
       name: 'notset_name',
@@ -86,12 +115,11 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     
     json = JSON.parse(response.body)
     assert_response :success
-    assert json['result'] == false
+    assert_not json['result']
+    assert_not User.find_by(name: name).check_access_token(json['access_token'])
+    assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
+
   end
 
-  test "should get logout" do
-    get api_user_logout_url
-    assert_response :success
-  end
 
 end
