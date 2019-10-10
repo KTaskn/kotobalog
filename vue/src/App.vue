@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <AppNavigationBar></AppNavigationBar>
     <router-view/>
   </div>
 </template>
 
 <script>
+import AppNavigationBar from './components/AppNavigationBar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AppNavigationBar
+  }
 }
 </script>
 
@@ -18,6 +22,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
