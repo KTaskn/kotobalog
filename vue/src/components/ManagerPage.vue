@@ -15,6 +15,13 @@ export default {
   components: {
     SentenceCard
   },
+
+  // mounted () {
+  //   if (localStorage.access_token) {
+  //   } else {
+
+  //   }
+  // },
   data () {
     return {
       l_sentence: [

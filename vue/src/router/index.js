@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 import TopPage from '@/components/TopPage'
 import SignupPage from '@/components/SignupPage'
+import SigninPage from '@/components/SigninPage'
 import NotePage from '@/components/NotePage'
 import ManagerPage from '@/components/ManagerPage'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -22,6 +23,11 @@ export default new Router({
       path: '/signup',
       name: 'SignupPage',
       component: SignupPage
+    },
+    {
+      path: '/signin',
+      name: 'SigninPage',
+      component: SigninPage
     },
     {
       path: '/note',
