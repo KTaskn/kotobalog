@@ -24,7 +24,9 @@ class Api::UserController < ApplicationController
         'result': result,
         'name': name,
         'access_token': access_token.nil? ? '' : access_token.token,
+        'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
         'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
+        'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
       }
     else
       result_json = {

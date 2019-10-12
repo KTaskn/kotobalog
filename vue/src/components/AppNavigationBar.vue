@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import Global from '@/global/index'
 
 export default {
@@ -39,16 +39,10 @@ export default {
       }
     },
     post_signout (url) {
-      return axios.post(
-        Global.API_URL + url,
+      return Global.post_wrapper(
+        url,
         {
-          name: localStorage.name,
-          access_token: localStorage.access_token
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          name: localStorage.name
         }
       ).then((res) => {
         localStorage.removeItem('name')

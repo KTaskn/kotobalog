@@ -17,6 +17,8 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
     assert json['access_token']
     assert json['refresh_token']
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
     assert json['name'] == name
     
     user = User.find_by(name: name)
