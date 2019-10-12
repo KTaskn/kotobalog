@@ -15,13 +15,12 @@ export default {
   components: {
     SentenceCard
   },
-
-  // mounted () {
-  //   if (localStorage.access_token) {
-  //   } else {
-
-  //   }
-  // },
+  mounted () {
+    if (localStorage.access_token) {
+    } else {
+      this.$router.push({ path: '/signup' })
+    }
+  },
   data () {
     return {
       l_sentence: [

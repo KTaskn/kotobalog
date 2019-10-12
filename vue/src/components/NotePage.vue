@@ -58,6 +58,12 @@
 export default {
   components: {
   },
+  mounted () {
+    if (localStorage.access_token) {
+    } else {
+      this.$router.push({ path: '/signup' })
+    }
+  },
   data () {
     return {
       form: {

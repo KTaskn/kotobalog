@@ -11,6 +11,17 @@ class User < ApplicationRecord
         maximum: 255
     }
 
+    def self.signup(name, password, password_check, email)
+        if password == password_check then
+            # パスワードが一致しているかをチェック
+            user = User.create(name: name, password: password, email: email)
+            return user.save()
+        else
+            return false
+        end
+    end
+
+
     def check_access_token(token_str)
         token = AccessToken.find_by(user: self)
         if token then
@@ -38,7 +49,7 @@ class User < ApplicationRecord
         end
     end
 
-    def logout()
+    def logout
         access_token = AccessToken.find_by(user: self)
         access_token.remove()
         refresh_token = RefreshToken.find_by(user: self)

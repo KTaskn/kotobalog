@@ -1,13 +1,14 @@
 require 'test_helper'
 
 class Api::UserControllerTest < ActionDispatch::IntegrationTest
-  test "should post create" do
+  test "should post signup" do
     name = 'test_name_1'
     password = 'test_password'
     email = 'email_1@example.com'
-    post api_user_create_url, params: {
+    post api_user_signup_url, params: {
         'name': name,
         'password': password,
+        'password_check': password,
         'email': email
       }
     
@@ -23,9 +24,10 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     name = 'test_name_1'
     password = 'test_password'
     email = 'email_2@example.com'
-    post api_user_create_url, params: {
+    post api_user_signup_url, params: {
         'name': name,
         'password': password,
+        'password_check': password,
         'email': email
       }
     
@@ -36,9 +38,10 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     name = 'test_name_2'
     password = 'test_password'
     email = 'email_1@example.com'
-    post api_user_create_url, params: {
+    post api_user_signup_url, params: {
         'name': name,
         'password': password,
+        'password_check': password,
         'email': email
       }
     
@@ -49,18 +52,35 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     user = User.find_by(name: name)
   end
 
-  test "should get login" do
+  test "signup error other passwordcheck" do
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': 'other',
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert_not json['result']
+  end
+
+  test "should get signin" do
     # ユーザを作成
     name = 'test_name_1'
     password = 'test_password'
     email = 'email_1@example.com'
-    post api_user_create_url, params: {
-      'name': name,
-      'password': password,
-      'email': email
-    }
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
 
-    post api_user_login_url, params: {
+    post api_user_signin_url, params: {
       name: name,
       password: password
     }
@@ -72,7 +92,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert User.find_by(name: name).check_refresh_token(json['refresh_token'])
 
 
-    post api_user_logout_url params: {
+    post api_user_signout_url params: {
       name: name,
       access_token: json['access_token']
     }
@@ -81,23 +101,24 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
   end
 
-  test "login bad pattern" do
+  test "signin bad pattern" do
     # ユーザを作成
     name = 'test_name_1'
     password = 'test_password'
     email = 'email_1@example.com'
-    post api_user_create_url, params: {
-      'name': name,
-      'password': password,
-      'email': email
-    }
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
 
-    post api_user_login_url, params: {
+    post api_user_signin_url, params: {
       name: name,
       password: password
     }
 
-    post api_user_login_url, params: {
+    post api_user_signin_url, params: {
       name: name,
       password: 'other_password'
     }
@@ -108,7 +129,7 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert_not User.find_by(name: name).check_access_token(json['access_token'])
     assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
 
-    post api_user_login_url, params: {
+    post api_user_signin_url, params: {
       name: 'notset_name',
       password: password
     }

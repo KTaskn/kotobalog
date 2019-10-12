@@ -1,6 +1,33 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+
+  test "signup" do
+    name = 'name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    result = User.signup(name, password, password, email)
+
+    assert result
+
+    user_load = User.find_by(name: name)    
+    assert user_load.name == name
+    assert user_load.email == email
+    assert user_load.password_digest != password
+  end
+
+  test "signup error" do
+    name = 'name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    result = User.signup(name, password, 'other', email)
+
+    assert_not result
+
+    user_load = User.find_by(name: name)    
+    assert_not user_load
+  end
+
   test "passowrd digest" do
     name = 'name'
     password = 'test_password'

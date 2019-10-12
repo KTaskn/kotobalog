@@ -2,6 +2,8 @@
   <div class="container">
     <b-form @submit="onSubmit">
 
+      <span>アカウントをもっている場合は<router-link to="/signin">ログイン</router-link></span>
+
       <b-form-group id="input-group-1" class="text-left" label="Name:" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -48,22 +50,44 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Global from '@/global/index'
 export default {
   components: {
   },
   data () {
     return {
       form: {
-        email: '',
-        name: '',
-        password: '',
-        password_check: ''
+        email: 'example@example.com',
+        name: 'name',
+        password: 'test_password',
+        password_check: 'test_password'
       }
     }
   },
   methods: {
     onSubmit (evt) {
+      this.post_signup('/user/signup', this.form)
       return ''
+    },
+    post_signup (url, data) {
+      console.log(Global.API_URL + url)
+      return axios.post(
+        Global.API_URL + url,
+        {
+          email: data.email,
+          name: data.name,
+          password: data.password,
+          password_check: data.password_check
+        },
+        {
+          headers: {
+            'Content-type': 'text/json'
+          }
+        }
+      ).then((res) => {
+        console.log(res)
+      })
     }
   }
 }
