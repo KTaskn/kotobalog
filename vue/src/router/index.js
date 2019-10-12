@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import EventHub from '@/global/EventHub'
 import BootstrapVue from 'bootstrap-vue'
 import TopPage from '@/components/TopPage'
 import SignupPage from '@/components/SignupPage'
@@ -11,6 +12,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
+Vue.use(EventHub)
 
 export default new Router({
   routes: [

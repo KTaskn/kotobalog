@@ -52,6 +52,7 @@
 <script>
 import axios from 'axios'
 import Global from '@/global/index'
+
 export default {
   components: {
   },
@@ -90,10 +91,12 @@ export default {
           localStorage.access_token = res.data.access_token
           localStorage.refresh_token = res.data.refresh_token
           this.$router.push({ path: '/note' })
+          this.$eventHub.$emit('raise_show_signout')
         } else {
           localStorage.removeItem('name')
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
+          this.$eventHub.$emit('drop_show_signout')
         }
       })
     }
