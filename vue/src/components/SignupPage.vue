@@ -71,7 +71,6 @@ export default {
       return ''
     },
     post_signup (url, data) {
-      console.log(Global.API_URL + url)
       return axios.post(
         Global.API_URL + url,
         {
@@ -82,11 +81,20 @@ export default {
         },
         {
           headers: {
-            'Content-type': 'text/json'
+            'Content-Type': 'application/json'
           }
         }
       ).then((res) => {
-        console.log(res)
+        if (res.data.result) {
+          localStorage.name = res.data.name
+          localStorage.access_token = res.data.access_token
+          localStorage.refresh_token = res.data.refresh_token
+          this.$router.push({ path: '/note' })
+        } else {
+          localStorage.removeItem('name')
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('refresh_token')
+        }
       })
     }
   }

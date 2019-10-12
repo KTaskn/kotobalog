@@ -22,6 +22,7 @@ class Api::UserController < ApplicationController
 
       result_json = {
         'result': result,
+        'name': name,
         'access_token': access_token.nil? ? '' : access_token.token,
         'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
       }

@@ -15,6 +15,9 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     json = JSON.parse(response.body)
     assert_response :success
     assert json['result']
+    assert json['access_token']
+    assert json['refresh_token']
+    assert json['name'] == name
     
     user = User.find_by(name: name)
     assert user.name == name
