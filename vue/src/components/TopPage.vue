@@ -1,3 +1,12 @@
 <template>
-    <h1>HelloWolrd</h1>
+    <Timeline></Timeline>
 </template>
+
+<script>
+import Timeline from '@/components/Timeline'
+export default {
+  components: {
+    Timeline
+  }
+}
+</script>
