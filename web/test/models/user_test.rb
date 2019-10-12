@@ -103,38 +103,61 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.check_refresh_token('other string')
   end
 
-  test "login and logout" do
+  test "signin and signout" do
     name = 'test_name'
     password = 'test_password'
     email = 'test_email@example.com'
     user = User.create(name: name, password: password, email: email)
     user.save()
 
-    result, access_token, refresh_token = user.login(password)
+    result, access_token, refresh_token = user.signin(password)
     assert result
     assert user.check_access_token(access_token.token)
     assert user.check_refresh_token(refresh_token.token)
     assert AccessToken.find_by(user: user)
     assert RefreshToken.find_by(user: user)
 
-    user.logout()
+    user.signout()
     assert_not AccessToken.find_by(user: user)
     assert_not RefreshToken.find_by(user: user)
   end
 
-  test "login bad unmatch password" do
+  test "signin bad unmatch password" do
     name = 'test_name'
     password = 'test_password'
     email = 'test_email@example.com'
     user = User.create(name: name, password: password, email: email)
     user.save()
 
-    result, access_token, refresh_token = user.login('other password')
+    result, access_token, refresh_token = user.signin('other password')
     assert_not result
     assert_not access_token
     assert_not refresh_token
     assert_not AccessToken.find_by(user: user)
     assert_not RefreshToken.find_by(user: user)
+  end
+
+  test "refresh" do
+    name = 'test_name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    user = User.create(name: name, password: password, email: email)
+    user.save()
+
+    result, access_token, refresh_token = user.signin(password)
+    assert result
+    assert user.check_access_token(access_token.token)
+    assert user.check_refresh_token(refresh_token.token)
+    assert AccessToken.find_by(user: user)
+    assert RefreshToken.find_by(user: user)
+
+    result, access_token, refresh_token = user.refresh(refresh_token.token)
+    assert result
+    assert user.check_access_token(access_token.token)
+    assert user.check_refresh_token(refresh_token.token)
+    assert AccessToken.find_by(user: user)
+    assert RefreshToken.find_by(user: user)
+
   end
 
 end

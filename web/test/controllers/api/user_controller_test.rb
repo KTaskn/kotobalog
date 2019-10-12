@@ -95,6 +95,8 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
     assert User.find_by(name: name).check_access_token(json['access_token'])
     assert User.find_by(name: name).check_refresh_token(json['refresh_token'])
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
 
 
     post api_user_signout_url params: {
@@ -144,7 +146,51 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert_not json['result']
     assert_not User.find_by(name: name).check_access_token(json['access_token'])
     assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
+  end
 
+  test "should post refresh" do
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['access_token']
+    assert json['refresh_token']
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
+    assert json['name'] == name
+    
+    user = User.find_by(name: name)
+    assert user.name == name
+    assert user.password_digest != password
+    assert user.email == email
+
+    access_token_1 = json['access_token']
+    refresh_token_1 = json['refresh_token']
+
+    post api_user_refresh_url, params: {
+        'name': name,
+        'refresh_token': json['refresh_token']
+      }
+
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['access_token']
+    assert json['refresh_token']
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
+    assert_not json['access_token'] == access_token_1
+    assert_not json['refresh_token'] == refresh_token_1
+    
+    
   end
 
 

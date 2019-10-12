@@ -41,7 +41,7 @@ class User < ApplicationRecord
         end
     end
 
-    def login(password)
+    def signin(password)
         if self.authenticate(password) then
             return true, AccessToken.refresh(self), RefreshToken.refresh(self)
         else
@@ -49,10 +49,18 @@ class User < ApplicationRecord
         end
     end
 
-    def logout
+    def signout
         access_token = AccessToken.find_by(user: self)
         access_token.remove()
         refresh_token = RefreshToken.find_by(user: self)
         refresh_token.remove()
+    end
+
+    def refresh(refresh_token)
+        if refresh_token == RefreshToken.find_by(user: self).token then
+            return true, AccessToken.refresh(self), RefreshToken.refresh(self)
+        else
+            return false, nil, nil
+        end
     end
 end
