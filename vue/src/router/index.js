@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 // import TopPage from '@/components/TopPage'
-import SignupPage from '@/components/SignupPage'
+// import SignupPage from '@/components/SignupPage'
+// import NotePage from '@/components/NotePage'
+import ManagerPage from '@/components/ManagerPage'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -16,10 +18,20 @@ export default new Router({
     //   name: 'TopPage',
     //   component: TopPage
     // },
+    // {
+    //   path: '/signup',
+    //   name: 'SignupPage',
+    //   component: SignupPage
+    // },
+    // {
+    //   path: '/note',
+    //   name: 'NotePage',
+    //   component: NotePage
+    // }
     {
       path: '/',
-      name: 'SignupPage',
-      component: SignupPage
+      name: 'ManagerPage',
+      component: ManagerPage
     }
   ]
 })

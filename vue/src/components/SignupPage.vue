@@ -64,9 +64,6 @@ export default {
   methods: {
     onSubmit (evt) {
       return ''
-    },
-    onReset (evt) {
-      return ''
     }
   }
 }

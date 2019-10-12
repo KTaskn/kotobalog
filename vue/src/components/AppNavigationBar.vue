@@ -4,7 +4,7 @@
       <b-navbar-brand href="#">{{ app_name }}</b-navbar-brand>
       <b-navbar-nav>
         <b-nav-item href="#">Top</b-nav-item>
-        <b-nav-item href="#" disabled>Write</b-nav-item>
+        <b-nav-item href="#" disabled>Note</b-nav-item>
         <b-nav-item href="#" disabled>Manager</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
