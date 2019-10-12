@@ -1,11 +1,10 @@
 <template>
   <div>
     <b-navbar type="dark" variant="info">
-      <b-navbar-brand href="#">{{ app_name }}</b-navbar-brand>
+      <b-navbar-brand to="/">{{ app_name }}</b-navbar-brand>
       <b-navbar-nav>
-        <b-nav-item href="#">Top</b-nav-item>
-        <b-nav-item href="#" disabled>Note</b-nav-item>
-        <b-nav-item href="#" disabled>Manager</b-nav-item>
+        <b-nav-item to="/note">Note</b-nav-item>
+        <b-nav-item to="/manager">Manager</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </div>

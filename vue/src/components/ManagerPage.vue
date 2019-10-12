@@ -4,6 +4,8 @@
       v-for="a_sentence in l_sentence"
       v-bind:key="a_sentence.id"
       v-bind:card="a_sentence"></SentenceCard>
+      <b-button>&#8249;</b-button>
+      <b-button>&#8250;</b-button>
   </div>
 </template>
 
