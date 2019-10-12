@@ -39,12 +39,7 @@ export default {
       }
     },
     post_signout (url) {
-      return Global.post_wrapper(
-        url,
-        {
-          name: localStorage.name
-        }
-      ).then((res) => {
+      return Global.post_wrapper(url).then((res) => {
         localStorage.removeItem('name')
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')

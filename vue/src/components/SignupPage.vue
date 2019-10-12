@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Global from '@/global/index'
 
 export default {
@@ -73,21 +72,15 @@ export default {
       return ''
     },
     post_signup (url, data) {
-      return axios.post(
-        Global.API_URL + url,
+      return Global.post_wrapper(
+        url,
         {
           email: data.email,
           name: data.name,
           password: data.password,
           password_check: data.password_check
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         }
       ).then((res) => {
-        console.log(res.data)
         if (res.data.result) {
           localStorage.name = res.data.name
           localStorage.access_token = res.data.access_token
