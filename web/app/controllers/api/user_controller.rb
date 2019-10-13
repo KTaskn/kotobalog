@@ -61,7 +61,7 @@ class Api::UserController < ApplicationController
     name = params[:name]
     str_access_token = params[:access_token]
     user = User.find_by(name: name)
-    if user.check_access_token(str_access_token) then
+    if user && user.check_access_token(str_access_token) then
       user.signout()
       render :json => {
         'result': true
