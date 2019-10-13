@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   namespace :api do
+    post 'sentence/note'
+    post 'sentence/get'
+    post 'sentence/getmine'
+  end
+  namespace :api do
     get 'status/check'
   end
   namespace :api do

@@ -36,4 +36,15 @@ EOS
   #   assert ret['creator'] == '日本統計学会出版企画委員会 編,統計質保証推進協会統計検定センター 著'
   #   assert ret['publisher'] == '実務教育出版'
   # end
+
+  test "need creator" do
+    book = Book.create(
+      creator: '',
+      title: '',
+      publisher: '',
+      isbn: ''
+    )
+    
+    assert_not book.save()
+  end
 end

@@ -1,6 +1,7 @@
 require 'rexml/document'
 
 class Book < ApplicationRecord
+    validates :creator, presence: true
     def self.parse_xml(xml_code)
         ret = {}
         ret['title'] = xml_code[/<dc:title>(.*)<\/dc:title>/, 1]
