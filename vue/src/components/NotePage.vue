@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <b-form @submit="onSubmit">
+      <span v-show=haserror>保存に失敗しました</span>
 
       <b-form-group id="input-group-1" class="text-left" label="言葉:" label-for="input-1">
         <b-form-input
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import Global from '@/global/index'
 export default {
   components: {
   },
@@ -67,17 +69,40 @@ export default {
   data () {
     return {
       form: {
-        sentence: '',
-        creator: '',
+        sentence: '本日天気晴朗なれども波高し',
+        creator: '秋山真之',
         isbn: '',
         title: '',
         publisher: ''
-      }
+      },
+      haserror: false
     }
   },
   methods: {
     onSubmit (evt) {
+      this.post_note('/sentence/note', this.form)
       return ''
+    },
+    post_note (url, data) {
+      return Global.post_wrapper(
+        url,
+        {
+          name: data.name,
+          title: data.title,
+          creator: data.creator,
+          publisher: data.publisher,
+          isbn: data.isbn
+        }
+      ).then((res) => {
+        if (res.data.result) {
+          this.haserror = false
+          console.log('success')
+          this.$router.push({ path: '/manager' })
+        } else {
+          console.log('failed')
+          this.haserror = true
+        }
+      })
     }
   }
 }

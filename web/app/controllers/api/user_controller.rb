@@ -50,6 +50,7 @@ class Api::UserController < ApplicationController
 
     render :json => {
       'result': result,
+      'name': name,
       'access_token': access_token.nil? ? '' : access_token.token,
       'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
       'refresh_token': refresh_token.nil? ? '' : refresh_token.token,

@@ -87,8 +87,8 @@ export default {
           localStorage.access_token_expiration = res.data.access_token_expiration
           localStorage.refresh_token = res.data.refresh_token
           localStorage.refresh_token_expiration = res.data.refresh_token_expiration
-          this.$router.push({ path: '/note' })
           this.$eventHub.$emit('raise_show_signout')
+          this.$router.push({ path: '/note' })
         } else {
           localStorage.removeItem('name')
           localStorage.removeItem('access_token')
