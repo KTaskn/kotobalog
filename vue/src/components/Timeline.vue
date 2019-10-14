@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 class="text-left">みんなの記録</h1>
     <TimelineCard
       class="timelinecard"
       v-for="a_sentence in l_sentence"
@@ -44,6 +45,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 1.5rem;
+}
 .container {
   margin: 1em 0 1em 0;
 }

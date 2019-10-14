@@ -18,10 +18,12 @@ export default {
 <style>
 html {
     height: 100%;
+    background-color: #f5f0e3;
 }
 body {
     height: 100%;
     margin: 0;
+    background-color: #f5f0e3;
 }
 #app {
   height: 100%;
