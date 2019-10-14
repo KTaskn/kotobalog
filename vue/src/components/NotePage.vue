@@ -13,42 +13,50 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" class="text-left" label="ISBNコード:" label-for="input-2">
+      <b-form-group id="input-group-2" class="text-left" label="作者:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="form.isbn"
-          type="text"
-          placeholder="ISBNコード"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-3" class="text-left" label="作者:" label-for="input-3">
-        <b-form-input
-          id="input-3"
           v-model="form.creator"
           type="text"
-          required
           placeholder="作者"
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-4" class="text-left" label="タイトル：" label-for="input-4">
-        <b-form-input
-          id="input-4"
-          v-model="form.title"
-          type="text"
-          placeholder="書籍名"
-        ></b-form-input>
-      </b-form-group>
+      <div class="clearfix">
+      <b-button v-b-toggle.collapse class="float-left" size="sm">本の詳細を追加</b-button>
+      </div>
 
-      <b-form-group id="input-group-5" class="text-left" label="出版社：" label-for="input-5">
-        <b-form-input
-          id="input-5"
-          v-model="form.title"
-          type="text"
-          placeholder="出版社"
-        ></b-form-input>
-      </b-form-group>
+      <div>
+        <b-collapse id="collapse">
+          <b-form-group id="input-group-3" class="text-left" label="ISBNコード:" label-for="input-3">
+            <b-form-input
+              id="input-3"
+              v-model="form.isbn"
+              type="text"
+              required
+              placeholder="ISBNコード"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-4" class="text-left" label="タイトル：" label-for="input-4">
+            <b-form-input
+              id="input-4"
+              v-model="form.title"
+              type="text"
+              placeholder="書籍名"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-5" class="text-left" label="出版社：" label-for="input-5">
+            <b-form-input
+              id="input-5"
+              v-model="form.publisher"
+              type="text"
+              placeholder="出版社"
+            ></b-form-input>
+          </b-form-group>
+        </b-collapse>
+      </div>
 
       <b-button type="submit" variant="primary">登録</b-button>
     </b-form>

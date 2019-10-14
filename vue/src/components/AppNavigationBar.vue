@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="info">
+    <b-navbar id="navbar" type="dark" variant="info">
       <b-navbar-brand to="/">{{ app_name }}</b-navbar-brand>
       <b-navbar-nav>
         <b-nav-item to="/note">Note</b-nav-item>
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style scoped>
-#app-navbar {
-  background: #95a5a6
+#navbar {
+  background: #8C4F49!important;
 }
 </style>

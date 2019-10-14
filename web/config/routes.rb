@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'timeline/get'
+  end
+  namespace :api do
     post 'sentence/note'
     post 'sentence/get'
     post 'sentence/getmine'

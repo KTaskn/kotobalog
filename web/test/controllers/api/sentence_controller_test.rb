@@ -281,6 +281,8 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['id']
       assert ent['sentence'] == sentences[index]
       assert ent['creator'] == creator
+      assert ent['publisher'] == publisher
+      assert ent['title'] == titles[index]
       index -= 1
     end
 
@@ -299,6 +301,8 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['id']
       assert ent['sentence'] == sentences[index]
       assert ent['creator'] == creator
+      assert ent['publisher'] == publisher
+      assert ent['title'] == titles[index]
       index -= 1
     end
 
@@ -317,6 +321,8 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['id']
       assert ent['sentence'] == sentences[index]
       assert ent['creator'] == creator
+      assert ent['publisher'] == publisher
+      assert ent['title'] == titles[index]
       index -= 1
     end
     

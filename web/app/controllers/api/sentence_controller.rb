@@ -71,7 +71,9 @@ class Api::SentenceController < ApplicationController
       {
         'id': a_sentence.id,
         'sentence': a_sentence.sentence,
-        'creator': a_sentence.book.creator
+        'creator': a_sentence.book.creator,
+        'publisher': a_sentence.book.publisher,
+        'title': a_sentence.book.title
       }
     end
 

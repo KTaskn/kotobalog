@@ -1,6 +1,6 @@
 
 import axios from 'axios'
-const APP_NAME = 'Kotobalog'
+const APP_NAME = 'Kotobanote'
 const API_URL = 'http://localhost:8900/api'
 
 export default {
