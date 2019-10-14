@@ -18,6 +18,7 @@
           id="input-2"
           v-model="form.creator"
           type="text"
+          required
           placeholder="作者"
         ></b-form-input>
       </b-form-group>
@@ -33,7 +34,6 @@
               id="input-3"
               v-model="form.isbn"
               type="text"
-              required
               placeholder="ISBNコード"
             ></b-form-input>
           </b-form-group>
@@ -95,7 +95,6 @@ export default {
       return Global.post_wrapper(
         url,
         {
-          name: data.name,
           title: data.title,
           creator: data.creator,
           publisher: data.publisher,

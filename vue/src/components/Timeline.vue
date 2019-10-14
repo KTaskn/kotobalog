@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <TimelineCard
+      class="timelinecard"
       v-for="a_sentence in l_sentence"
       v-bind:key="a_sentence.id"
       v-bind:sentence="a_sentence"></TimelineCard>
@@ -41,3 +42,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  margin: 1em 0 1em 0;
+}
+.timelinecard {
+  margin: 0.5em 0 0.5em 0;
+}
+</style>

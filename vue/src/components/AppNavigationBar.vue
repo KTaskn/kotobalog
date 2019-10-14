@@ -61,6 +61,6 @@ export default {
 
 <style scoped>
 #navbar {
-  background: #8C4F49!important;
+  background: #f0134d!important;
 }
 </style>
