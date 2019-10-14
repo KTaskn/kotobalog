@@ -65,7 +65,7 @@ class Api::SentenceController < ApplicationController
     offset = params[:offset].to_i()
     user = User.find_by(name: name)
     l_sentence = Sentence.where(user: user).order(id: :desc).limit(MINE_SIZE).offset(offset * MINE_SIZE)
-    is_over = Sentence.where(user: user).count <= offset * (MINE_SIZE + 1)
+    is_over = Sentence.where(user: user).count <= (offset + 1) * MINE_SIZE
 
     ret_sentences = l_sentence.map do |a_sentence|
       {
