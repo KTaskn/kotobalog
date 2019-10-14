@@ -59,9 +59,26 @@ class Api::SentenceController < ApplicationController
     }
   end
 
+  MINE_SIZE = 5
   def getmine
+    name = params[:name]
+    offset = params[:offset].to_i()
+    user = User.find_by(name: name)
+    l_sentence = Sentence.where(user: user).order(id: :desc).limit(MINE_SIZE).offset(offset * MINE_SIZE)
+    is_over = Sentence.where(user: user).count <= offset * (MINE_SIZE + 1)
+
+    ret_sentences = l_sentence.map do |a_sentence|
+      {
+        'id': a_sentence.id,
+        'sentence': a_sentence.sentence,
+        'creator': a_sentence.book.creator
+      }
+    end
+
     render :json => {
-      'result': true
+      'result': true,
+      'sentences': ret_sentences,
+      'is_over': is_over
     }
   end
 end

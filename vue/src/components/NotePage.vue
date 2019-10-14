@@ -91,7 +91,8 @@ export default {
           title: data.title,
           creator: data.creator,
           publisher: data.publisher,
-          isbn: data.isbn
+          isbn: data.isbn,
+          sentence: data.sentence
         }
       ).then((res) => {
         if (res.data.result) {

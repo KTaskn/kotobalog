@@ -4,12 +4,13 @@
       v-for="a_sentence in l_sentence"
       v-bind:key="a_sentence.id"
       v-bind:card="a_sentence"></SentenceCard>
-      <b-button>&#8249;</b-button>
-      <b-button>&#8250;</b-button>
+      <b-button v-on:click=pagedown>&#8249;</b-button>
+      <b-button v-on:click=pageup>&#8250;</b-button>
   </div>
 </template>
 
 <script>
+import Global from '@/global/index'
 import SentenceCard from '@/components/SentenceCard'
 export default {
   components: {
@@ -20,14 +21,50 @@ export default {
     } else {
       this.$router.push({ path: '/signup' })
     }
+
+    this.get_sentences()
   },
   data () {
     return {
       l_sentence: [
-        {id: 1, sentence: 'sentence_1', creator: 'creator_1'},
-        {id: 2, sentence: 'sentence_2', creator: 'creator_2'},
-        {id: 3, sentence: 'sentence_3', creator: 'creator_3'}
-      ]
+      ],
+      page: 0,
+      is_over: false
+    }
+  },
+  methods: {
+    get_sentences () {
+      this.post_note('/sentence/getmine', {
+        offset: this.page
+      })
+    },
+    post_note (url, data) {
+      return Global.post_wrapper(
+        url,
+        {
+          offset: data.offset
+        }
+      ).then((res) => {
+        if (res.data.result) {
+          console.log('success')
+          this.l_sentence = res.data.sentences
+          this.is_over = res.data.is_over
+        } else {
+          console.log('failed')
+        }
+      })
+    },
+    pageup () {
+      if (!this.is_over){
+        this.page += 1
+        this.get_sentences()
+      }
+    },
+    pagedown () {
+      if (this.page > 0) {
+        this.page -= 1
+        this.get_sentences()
+      }
     }
   }
 }
