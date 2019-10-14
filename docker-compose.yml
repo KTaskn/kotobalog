@@ -5,10 +5,9 @@ services:
     environment:
       MYSQL_DATABASE: kotobalog_db
       MYSQL_ROOT_PASSWORD: EUMS9pbJwcVB7AS7gBRCUvfm
-    
-    # volumes:
-    #     # 永続化するときにマウントするdir
-    #     - ./db:/var/lib/mysql
+    volumes:
+        # 永続化するときにマウントするdir
+        - ./db:/var/lib/mysql
     ports:
       - "3306:3306"
 
@@ -28,8 +27,7 @@ services:
     volumes:
       - ./vue:/www
     ports:
-      - "8901:8080"
-    
+      - "127.0.0.1:8901:8080"    
     tty: true
 
   nginx:

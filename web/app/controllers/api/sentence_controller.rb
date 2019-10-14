@@ -1,5 +1,5 @@
 class Api::SentenceController < ApplicationController
-  protect_from_forgery
+  # protect_from_forgery
   before_action :check_access_token
 
   private def check_access_token
