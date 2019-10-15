@@ -13,7 +13,9 @@ services:
 
   web:
     build: web
-    command: bundle exec unicorn -p 3000 -c /app/config/unicorn.rb
+    command: bundle exec unicorn -p 3000 -c /app/config/unicorn.rb -E ${RAILS_ENV}
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
     volumes:
       - /share
       - ./web:/app
