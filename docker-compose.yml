@@ -5,6 +5,8 @@ services:
     environment:
       MYSQL_DATABASE: kotobalog_db
       MYSQL_ROOT_PASSWORD: EUMS9pbJwcVB7AS7gBRCUvfm
+      MYSQL_USER: app
+      MYSQL_PASSWORD: ${APP_DATABASE_PASSWORD}
     volumes:
         # 永続化するときにマウントするdir
         - ./db:/var/lib/mysql
