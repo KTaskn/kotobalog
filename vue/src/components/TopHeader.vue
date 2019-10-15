@@ -13,7 +13,7 @@
 export default {
   data () {
     return {
-      backgroundImageSrc: './static/top-header-pattern.png'
+      backgroundImageSrc: './assets/top-header-pattern.png'
     }
   }
 }

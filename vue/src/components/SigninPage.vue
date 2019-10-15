@@ -36,8 +36,8 @@ export default {
   data () {
     return {
       form: {
-        name: 'name',
-        password: 'test_password'
+        name: '',
+        password: ''
       },
       haserror: false
     }

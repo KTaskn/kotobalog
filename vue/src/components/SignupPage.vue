@@ -58,10 +58,10 @@ export default {
   data () {
     return {
       form: {
-        email: 'example@example.com',
-        name: 'name',
-        password: 'test_password',
-        password_check: 'test_password'
+        email: '',
+        name: '',
+        password: '',
+        password_check: ''
       },
       haserror: false
     }

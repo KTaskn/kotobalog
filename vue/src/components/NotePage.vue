@@ -77,8 +77,8 @@ export default {
   data () {
     return {
       form: {
-        sentence: '本日天気晴朗なれども波高し',
-        creator: '秋山真之',
+        sentence: '',
+        creator: '',
         isbn: '',
         title: '',
         publisher: ''
