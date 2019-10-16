@@ -38,7 +38,7 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ${NGINX_CONF-./nginx/development.conf}:/etc/nginx/conf.d/default.conf
       - ./vue/dist:/www
       - ./nginx/www_http:/www_http
       - ./web/static:/assets
