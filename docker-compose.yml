@@ -39,6 +39,8 @@ services:
     build: ./nginx
     volumes:
       - ${NGINX_CONF-./nginx/development.conf}:/etc/nginx/conf.d/default.conf
+      - ./nginx/server.crt:/etc/server.crt
+      - ./nginx/server.key:/etc/server.key
       - ./vue/dist:/www
       - ./nginx/www_http:/www_http
       - ./web/static:/assets
