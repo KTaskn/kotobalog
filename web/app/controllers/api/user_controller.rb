@@ -1,5 +1,5 @@
 class Api::UserController < ApplicationController
-  # protect_from_forgery
+  protect_from_forgery
   def signup
     name = params[:name]
     password = params[:password]
