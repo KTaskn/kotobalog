@@ -1,8 +1,7 @@
 
 import axios from 'axios'
 const APP_NAME = 'Kotobanote'
-// const API_URL = 'http://localhost:8900/api'
-const API_URL = 'http://kotobanote.jp/api'
+const API_URL = process.env.API_URL
 
 export default {
   APP_NAME: APP_NAME,
