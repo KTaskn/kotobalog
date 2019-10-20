@@ -3,9 +3,15 @@
     <b-navbar id="navbar" type="dark" variant="info">
       <b-navbar-brand to="/">{{ app_name }}</b-navbar-brand>
       <b-navbar-nav>
-        <b-nav-item to="/note">Note</b-nav-item>
-        <b-nav-item to="/manager">Manager</b-nav-item>
-        <b-nav-item v-on:click="signout" v-if="flag_show_signout" left>Signout</b-nav-item>
+        <b-nav-item to="/note">
+          <v-icon name="edit" scale="1.5" />
+        </b-nav-item>
+        <b-nav-item to="/manager">
+          <v-icon name="clipboard" scale="1.5" />
+        </b-nav-item>
+        <b-nav-item v-on:click="signout" v-if="flag_show_signout">
+          <v-icon name="sign-out-alt" scale="1.5" />
+        </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </div>

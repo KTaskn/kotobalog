@@ -18,12 +18,12 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap');
 
-/* html {
-    background-color: #f5f0e3;
+html {
+    background-color: #D7CCC8;
 }
 body {
-    background-color: #f5f0e3;
-} */
+    background-color: #D7CCC8;
+}
 #app {
   font-family: 'Noto Serif JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,8 +33,8 @@ body {
   background-color: #D7CCC8;
 }
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-    background-color: #BDBDBD !important;
-    border-color: #BDBDBD;
+    background-color: #FF5252 !important;
+    border-color: #FF5252;
 }
 #memo_colors {
 color: #795548,  /* primary */

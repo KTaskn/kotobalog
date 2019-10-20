@@ -1,16 +1,17 @@
 <template>
   <div class="container">
     <b-form @submit="onSubmit">
-
-      <span>アカウントをもっている場合は<router-link to="/signin">ログイン</router-link></span>
+      <span>利用には登録が必要です。</span>
+      <span>アカウントをもっている場合は<router-link to="/signin">ログイン</router-link>してください</span>
       <span v-show=haserror>作成できませんでした</span>
-      <b-form-group id="input-group-1" class="text-left" label="Name:" label-for="input-1">
+      <b-form-group id="input-group-1" class="text-left signupinput" label="ユーザ名:" label-for="input-1">
         <b-form-input
           id="input-1"
           v-model="form.name"
           type="text"
           required
-          placeholder="name"
+          placeholder=""
+          v-b-tooltip.hover title="半角英数字15文字以下で希望のユーザ名を記入してください"
         ></b-form-input>
       </b-form-group>
 
@@ -20,7 +21,8 @@
           v-model="form.password"
           type="password"
           required
-          placeholder="passowrd"
+          placeholder=""
+          v-b-tooltip.hover title="半角英数字で任意のパスワードを記入してください"
         ></b-form-input>
       </b-form-group>
 
@@ -30,17 +32,18 @@
           v-model="form.password_check"
           type="password"
           required
-          placeholder="passowrd-check"
+          placeholder=""
+          v-b-tooltip.hover title="半角英数字で任意のパスワードを記入してください"
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-4" class="text-left" label="Email:" label-for="input-4">
+      <b-form-group id="input-group-4" class="text-left" label="メールアドレス:" label-for="input-4">
         <b-form-input
           id="input-4"
           v-model="form.email"
           type="email"
           required
-          placeholder="Enter email"
+          placeholder=""
         ></b-form-input>
       </b-form-group>
 
@@ -103,3 +106,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.tooltip {
+  font-size: 8pt;
+}
+</style>

@@ -2,13 +2,13 @@
   <div class="container">
     <b-form @submit="onSubmit">
       <span v-show=haserror>ログインできませんでした</span>
-      <b-form-group id="input-group-1" class="text-left" label="Name:" label-for="input-1">
+      <b-form-group id="input-group-1" class="text-left" label="ユーザ名:" label-for="input-1">
         <b-form-input
           id="input-1"
           v-model="form.name"
           type="text"
           required
-          placeholder="name"
+          placeholder=""
         ></b-form-input>
       </b-form-group>
 
@@ -18,7 +18,7 @@
           v-model="form.password"
           type="password"
           required
-          placeholder="passowrd"
+          placeholder=""
         ></b-form-input>
       </b-form-group>
 
@@ -77,3 +77,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.tooltip {
+  font-size: 8pt;
+}
+</style>

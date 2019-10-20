@@ -1,17 +1,25 @@
 <template>
   <div class="container">
     <b-form @submit="onSubmit">
+      <span>日常で出会ったお気に入りのコトバを記録しましょう</span>
       <span v-show=haserror>保存に失敗しました</span>
 
-      <b-form-group id="input-group-1" class="text-left" label="言葉:" label-for="input-1">
-        <b-form-input
+      <b-form-group id="input-group-1" class="text-left" label="コトバ:" label-for="input-1">
+        <b-form-textarea
           id="input-1"
           v-model="form.sentence"
           type="text"
           required
-          placeholder="文章"
-        ></b-form-input>
+          placeholder=""
+          rows="3"
+          max-rows="3"
+        ></b-form-textarea>
       </b-form-group>
+
+      <b-tooltip class="input-tooltip" target="input-group-1" placement="bottom">
+        例えばこんなコトバを記録しましょう<br/>
+        国境の長いトンネルを抜けると雪国であった。 / クリリンのことかー!!!!
+      </b-tooltip>
 
       <b-form-group id="input-group-2" class="text-left" label="作者:" label-for="input-2">
         <b-form-input
@@ -19,7 +27,8 @@
           v-model="form.creator"
           type="text"
           required
-          placeholder="作者"
+          placeholder=""
+          v-b-tooltip.hover title="コトバの作者、発言者を記載しましょう"
         ></b-form-input>
       </b-form-group>
 
@@ -34,7 +43,7 @@
               id="input-3"
               v-model="form.isbn"
               type="text"
-              placeholder="ISBNコード"
+              placeholder=""
             ></b-form-input>
           </b-form-group>
 
@@ -43,7 +52,7 @@
               id="input-4"
               v-model="form.title"
               type="text"
-              placeholder="書籍名"
+              placeholder=""
             ></b-form-input>
           </b-form-group>
 
@@ -52,7 +61,7 @@
               id="input-5"
               v-model="form.publisher"
               type="text"
-              placeholder="出版社"
+              placeholder=""
             ></b-form-input>
           </b-form-group>
         </b-collapse>
@@ -115,3 +124,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.tooltip {
+  font-size: 8pt;
+}
+</style>
