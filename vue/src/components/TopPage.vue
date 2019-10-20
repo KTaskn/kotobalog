@@ -1,11 +1,7 @@
 <template>
   <div>
-    <div class="h-60">
-      <TopHeader></TopHeader>
-    </div>
-    <div>
-      <Timeline></Timeline>
-    </div>
+    <TopHeader class="h-50"></TopHeader>
+    <Timeline></Timeline>
   </div>
 </template>
 
