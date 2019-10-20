@@ -20,7 +20,7 @@ export default {
         creator: this.sentence.creator,
         publisher: this.sentence.publisher,
         title: this.sentence.title,
-        tweet_text: 'https://twitter.com/intent/tweet?text="' + this.format_tweet_text(this.sentence.sentence, this.sentence.creator) + ' ＠コトバノートで記録しました。'
+        tweet_text: encodeURI('https://twitter.com/intent/tweet?text=' + this.format_tweet_text(this.sentence.sentence, this.sentence.creator) + ' ＠コトバノートで記録しました。')
       },
       show_text: false
     }
@@ -28,9 +28,9 @@ export default {
   methods: {
     format_tweet_text (text, creator) {
       if (text.length > 30) {
-        return '"' + text.substring(0, 30) + '..."' + ' - ' + creator
+        return '' + text.substring(0, 30) + '...' + ' - ' + creator
       } else {
-        return '"' + text + '" - ' + creator
+        return '' + text + ' - ' + creator
       }
     }
   }
