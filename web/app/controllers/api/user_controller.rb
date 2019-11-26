@@ -38,24 +38,36 @@ class Api::UserController < ApplicationController
   end
 
   def signin
-    name = params[:name]
+    name_or_email = params[:name_or_email]
     password = params[:password]
 
-    user = User.find_by(name: name)
+    if name_or_email and name_or_email.include?('@') then
+      user = User.find_by(email: name_or_email)
+    else
+      user = User.find_by(name: name_or_email)      
+    end
 
     result = false
     if user then
       result, access_token, refresh_token = user.signin(password)
     end
 
-    render :json => {
-      'result': result,
-      'name': name,
-      'access_token': access_token.nil? ? '' : access_token.token,
-      'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
-      'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
-      'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
-    }
+    if result then
+      result_json = {
+        'result': result,
+        'name': user.name,
+        'access_token': access_token.nil? ? '' : access_token.token,
+        'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
+        'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
+        'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
+      }
+    else
+      result_json = {
+        'result': result
+      }
+    end
+
+    render :json => result_json
   end
 
   def signout

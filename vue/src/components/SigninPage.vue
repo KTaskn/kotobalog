@@ -2,10 +2,10 @@
   <div class="container">
     <b-form @submit="onSubmit">
       <span v-show=haserror>ログインできませんでした</span>
-      <b-form-group id="input-group-1" class="text-left" label="ユーザ名:" label-for="input-1">
+      <b-form-group id="input-group-1" class="text-left" label="ユーザ名 または メールアドレス:" label-for="input-1">
         <b-form-input
           id="input-1"
-          v-model="form.name"
+          v-model="form.name_or_email"
           type="text"
           required
           placeholder=""
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       form: {
-        name: '',
+        name_or_email: '',
         password: ''
       },
       haserror: false
@@ -51,7 +51,7 @@ export default {
       return Global.post_wrapper(
         url,
         {
-          name: data.name,
+          name_or_email: data.name_or_email,
           password: data.password
         }
       ).then((res) => {
