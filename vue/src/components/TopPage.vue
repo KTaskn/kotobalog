@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TopHeader from '@/components/TopHeader'
-import Timeline from '@/components/Timeline'
+const TopHeader = () => import('@/components/TopHeader')
+const Timeline = () => import('@/components/Timeline')
 export default {
   components: {
     Timeline,

@@ -14,7 +14,8 @@
 
 <script>
 import Global from '@/global/index'
-import SentenceCard from '@/components/SentenceCard'
+const SentenceCard = () => import('@/components/SentenceCard')
+
 export default {
   components: {
     SentenceCard

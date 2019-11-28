@@ -12,7 +12,8 @@
 <script>
 import Global from '@/global/index'
 import axios from 'axios'
-import TimelineCard from '@/components/TimelineCard'
+const TimelineCard = () => import('@/components/TimelineCard')
+
 export default {
   mounted () {
     this.get_timeline()

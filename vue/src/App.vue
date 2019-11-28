@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import AppNavigationBar from './components/AppNavigationBar'
+const AppNavigationBar = () => import('@/components/AppNavigationBar')
 export default {
   name: 'App',
   components: {
