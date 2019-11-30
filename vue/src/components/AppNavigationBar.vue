@@ -64,9 +64,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#navbar {
-  background: #795548!important;
-}
-</style>
