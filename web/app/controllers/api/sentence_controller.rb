@@ -83,4 +83,23 @@ class Api::SentenceController < ApplicationController
       'is_over': is_over
     }
   end
+
+  def like
+    name = params[:name]
+    sentence_id = params[:sentence_id]
+  
+    ret = false
+    if not sentence_id.blank? then
+      sentence = Sentence.find(sentence_id)
+      user = User.find_by(name: name)
+
+      if sentence and user then
+        ret = sentence.switch_like(user)
+      end
+    end
+      
+    render :json => {
+      'result': ret
+    }
+  end
 end

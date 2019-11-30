@@ -12,6 +12,14 @@ class Sentence < ApplicationRecord
     end
   end
 
+  def switch_like(user)
+    if self.islike(user) then
+      return self.unlike(user)
+    else
+      return self.like(user)
+    end
+  end
+
   def like(user)
     like = SentenceLike.create(
       sentence: self,

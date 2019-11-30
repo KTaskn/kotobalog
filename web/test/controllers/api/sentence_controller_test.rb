@@ -327,4 +327,108 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     end
     
   end
+
+  test "sentence controller test like" do
+    SentenceLike.all.delete_all
+    
+    name = 'name'
+    password = 'test_password'
+    email = 'test_email@example.com'
+    
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    access_token = json['access_token']
+    
+    title = 'test_title'
+    creator = 'test_creator'
+    publisher = 'test_publisher'
+    isbn = 0
+
+    user = User.find_by(name: name)
+
+    book = Book.create(
+        title: title,
+        creator: creator,
+        publisher: publisher,
+        isbn: isbn
+    )
+    book.save!()
+
+    text = 'text'
+    sentence = Sentence.create(
+        user: user,
+        book: book,
+        sentence: text
+    )
+    sentence.save!()
+
+    post api_sentence_like_url, params: {
+      'name': name,
+      'access_token': access_token,
+      'sentence_id': sentence.id
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    
+    assert SentenceLike.where(sentence: sentence).count == 1
+
+    name2 = 'name2'
+    password2 = 'test_password2'
+    email2 = 'test_email2@example.com'
+    
+    post api_user_signup_url, params: {
+      'name': name2,
+      'password': password2,
+      'password_check': password2,
+      'email': email2
+    }
+
+    json2 = JSON.parse(response.body)
+    assert_response :success
+    access_token_2 = json2['access_token']
+
+    post api_sentence_like_url, params: {
+      'name': name2,
+      'access_token': access_token_2,
+      'sentence_id': sentence.id
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+
+    user2 = User.find_by(name: name2)
+    assert SentenceLike.where(sentence: sentence).count == 2
+
+    post api_sentence_like_url, params: {
+      'name': name,
+      'access_token': access_token,
+      'sentence_id': sentence.id
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    
+    assert SentenceLike.where(sentence: sentence).count == 1
+    assert SentenceLike.where(user: user).count == 0
+
+
+    post api_sentence_like_url, params: {
+      'name': name,
+      'access_token': access_token,
+      'sentence_id': ''
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert_not json['result']
+  end
+
+  
 end

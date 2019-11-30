@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     post 'sentence/note'
     post 'sentence/get'
     post 'sentence/getmine'
+    post 'sentence/like'
   end
   namespace :api do
     get 'status/check'
