@@ -47,7 +47,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">登録</b-button>
+      <b-button type="submit">登録</b-button>
     </b-form>
   </div>
 </template>
