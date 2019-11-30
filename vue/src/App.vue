@@ -18,31 +18,20 @@ export default {
 <style>
 
 html {
-    background-color: #D7CCC8;
-}
-body {
-    background-color: #D7CCC8;
+  background-color: #fffef9;
 }
 #app {
   font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #212121!important;
-  background-color: #D7CCC8;
+  color: #333!important;
+  background-color: #fffef9;
 }
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-    background-color: #FF5252 !important;
-    border-color: #FF5252;
+.btn-link {
+    color: #641214;
 }
 #memo_colors {
-color: #795548,  /* primary */
-#5D4037, /* dark primary */
-#D7CCC8, /* light primary */
-#FFFFFF, /* text */
-#FF5252, /* accent */
-#212121, /* primary text */
-#757575, /* secondary text */
-#BDBDBD /* divider */
+color: #273379, #dfcf86
 }
 </style>

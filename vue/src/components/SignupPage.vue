@@ -2,7 +2,7 @@
   <div class="container">
     <b-form @submit="onSubmit">
       <span>利用には登録が必要です。</span>
-      <span>アカウントをもっている場合は<router-link to="/signin">ログイン</router-link>してください</span>
+      <span>アカウントをもっている場合は<router-link to="/signin">サインイン</router-link>してください</span>
       <span v-show=haserror>作成できませんでした</span>
       <b-form-group id="input-group-1" class="text-left signupinput" label="ユーザ名:" label-for="input-1">
         <b-form-input
@@ -47,7 +47,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">登録</b-button>
+      <b-button type="submit">登録</b-button>
     </b-form>
   </div>
 </template>

@@ -1,7 +1,9 @@
 <template>
   <div>
     <TopHeader class="h-50"></TopHeader>
-    <Timeline></Timeline>
+    <b-container offset="1">
+      <Timeline></Timeline>
+    </b-container>
   </div>
 </template>
 

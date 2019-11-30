@@ -4,7 +4,7 @@ class AccessToken < ApplicationRecord
   belongs_to :user
   validates :user, uniqueness: true
 
-  ADD_TIME = 1.days
+  ADD_TIME = 1.hours
   def self.refresh(user, base_expiration=Time.zone.now)
     
     # 過去のトークンがある場合、削除

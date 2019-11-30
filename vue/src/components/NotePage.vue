@@ -28,7 +28,8 @@
           type="text"
           required
           placeholder=""
-          v-b-tooltip.hover title="コトバの作者、発言者を記載しましょう"
+          v-b-tooltip.hover
+          title="コトバの作者、発言者を記載しましょう"
         ></b-form-input>
       </b-form-group>
 
@@ -67,7 +68,7 @@
         </b-collapse>
       </div>
 
-      <b-button type="submit" variant="primary">登録</b-button>
+      <b-button type="submit">登録</b-button>
     </b-form>
   </div>
 </template>
