@@ -28,7 +28,8 @@
           type="text"
           required
           placeholder=""
-          v-b-tooltip.hover title="コトバの作者、発言者を記載しましょう"
+          v-b-tooltip.hover
+          title="コトバの作者、発言者を記載しましょう"
         ></b-form-input>
       </b-form-group>
 
