@@ -72,3 +72,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#navbar {
+  background-color: #dfcf86;
+}
+</style>

@@ -16,10 +16,7 @@ export default {
 
 <style scoped>
 #topheader {
-  color: #ffffff;
-  background-size: cover;
-}
-#topheader-text {
-  color: #ffffff;
+  padding-top:10px;
+  padding-bottom:10px;
 }
 </style>

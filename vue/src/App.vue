@@ -18,15 +18,15 @@ export default {
 <style>
 
 html {
-    background-color: #dfcf86;
+  background-color: #fffef9;
 }
 #app {
   font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #212121!important;
-  background-color: #dfcf86;
+  color: #333!important;
+  background-color: #fffef9;
 }
 .btn-link {
     color: #641214;
