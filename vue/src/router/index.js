@@ -7,19 +7,12 @@ import SignupPage from '@/components/SignupPage'
 import SigninPage from '@/components/SigninPage'
 import NotePage from '@/components/NotePage'
 import ManagerPage from '@/components/ManagerPage'
-import 'vue-awesome/icons/edit'
-import 'vue-awesome/icons/clipboard'
-import 'vue-awesome/icons/sign-out-alt'
-import Icon from 'vue-awesome/components/Icon'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
 Vue.use(EventHub)
-
-// アイコンモジュール
-Vue.component('v-icon', Icon)
 
 export default new Router({
   routes: [

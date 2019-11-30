@@ -1,16 +1,18 @@
 <template>
   <div>
-    <b-navbar id="navbar" type="dark" variant="info">
+    <b-navbar id="navbar" type="dark">
       <b-navbar-brand to="/">{{ app_name }}</b-navbar-brand>
-      <b-navbar-nav>
-        <b-nav-item to="/note">
-          <v-icon name="edit" scale="1.5" />
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown text="メニュー" v-if="flag_show_signout" right>
+          <b-dropdown-item to="/note">記録する</b-dropdown-item>
+          <b-dropdown-item to="/manager">一覧をみる</b-dropdown-item>
+          <b-dropdown-item v-on:click="signout">サインアウト</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item v-on:click="signin" v-if="!flag_show_signout" right>
+          サインイン
         </b-nav-item>
-        <b-nav-item to="/manager">
-          <v-icon name="clipboard" scale="1.5" />
-        </b-nav-item>
-        <b-nav-item v-on:click="signout" v-if="flag_show_signout">
-          <v-icon name="sign-out-alt" scale="1.5" />
+        <b-nav-item v-on:click="signup" v-if="!flag_show_signout" right>
+          登録
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -52,6 +54,12 @@ export default {
         this.$router.push({ path: '/' })
         this.drop_show_signout()
       })
+    },
+    signin () {
+      this.$router.push({ path: '/signin' })
+    },
+    signup () {
+      this.$router.push({ path: '/signup' })
     },
     raise_show_signout () {
       console.log('raise')

@@ -28,9 +28,8 @@ html {
   color: #212121!important;
   background-color: #dfcf86;
 }
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-    background-color: #641214 !important;
-    border-color: #dfcf86;
+.btn-link {
+    color: #641214;
 }
 #memo_colors {
 color: #273379, #dfcf86
