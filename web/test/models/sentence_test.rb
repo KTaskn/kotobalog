@@ -31,21 +31,31 @@ class SentenceTest < ActiveSupport::TestCase
         sentence: text
     )
     sentence.save!()
+
+    sentence1 = Sentence.create(
+        user: user,
+        book: book,
+        sentence: text
+    )
+    sentence1.save!()
+
     assert SentenceLike.find_by(user: user).nil?
     assert sentence.like(user) == true
-    assert SentenceLike.where(user: user).count == 1
+    assert SentenceLike.where(user: user, sentence: sentence).count == 1
 
     assert sentence.islike(user)
+    assert_not sentence1.islike(user)
 
     assert sentence.like(user) == false
-    assert SentenceLike.where(user: user).count == 1
+    assert SentenceLike.where(user: user, sentence: sentence).count == 1
     assert sentence.unlike(user) == true
-    assert SentenceLike.where(user: user).count == 0
+    assert SentenceLike.where(user: user, sentence: sentence).count == 0
 
     assert_not sentence.islike(user)
+    assert_not sentence1.islike(user)
 
     assert sentence.unlike(user) == false
-    assert SentenceLike.where(user: user).count == 0
+    assert SentenceLike.where(user: user, sentence: sentence).count == 0
   end
 
   test "switch like" do
@@ -80,9 +90,9 @@ class SentenceTest < ActiveSupport::TestCase
     sentence.save!()
     assert SentenceLike.find_by(user: user).nil?
     assert sentence.switch_like(user) == true
-    assert SentenceLike.where(user: user).count == 1
+    assert SentenceLike.where(user: user, sentence: sentence).count == 1
     assert sentence.switch_like(user) == true
-    assert SentenceLike.where(user: user).count == 0
+    assert SentenceLike.where(user: user, sentence: sentence).count == 0
   end
 
   test "like user is null" do

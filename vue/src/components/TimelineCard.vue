@@ -13,19 +13,23 @@
       <b-card-text v-if="show_text">{{ card.publisher }} {{ card.title }}</b-card-text>
     </b-card-body>
     <b-card-footer class="text-left">
-      <v-icon name="heart" color="#f00" scale="1" v-if="card.likeit"/>
-      <v-icon name="regular/heart" scale="1" v-if="!card.likeit"/>
-      <span id="likeit">
-        {{ card.likenum }}
-      </span>
+      <div v-on:click="like">
+        <v-icon name="heart" color="#f00" scale="1" v-if="card.likeit"/>
+        <v-icon name="regular/heart" scale="1" v-else/>
+        <span id="likeit">
+          {{ card.likenum }}
+        </span>
+      </div>
     </b-card-footer>
   </b-card>
 </template>
 
 <script>
+import Global from '@/global/index'
 export default {
   props: ['sentence'],
   mounted () {
+    this.get_islike()
     if (this.sentence.title || this.sentence.publisher) {
       this.show_text = true
     }
@@ -37,9 +41,52 @@ export default {
         creator: this.sentence.creator,
         publisher: this.sentence.publisher,
         title: this.sentence.title,
-        likenum: this.sentence.likenum
+        likenum: this.sentence.likenum,
+        likeit: false,
+        waiting_process_islike: false
       },
       show_text: false
+    }
+  },
+  methods: {
+    like () {
+      if (this.waiting_process_islike === false) {
+        this.post_request_like('/sentence/like')
+      }
+    },
+    post_request_like (url) {
+      return Global.post_wrapper(
+        url,
+        {
+          sentence_id: this.sentence.id
+        }
+      ).then((res) => {
+        if (res.data.result) {
+          this.card.likeit = res.data.islikes
+          setTimeout(this.get_islike(), 5000)
+        } else {
+        }
+      })
+    },
+    get_islike () {
+      this.waiting_process_islike = true
+      this.get_request_islike('/sentence/islike')
+    },
+    get_request_islike (url) {
+      return Global.get_wrapper(
+        url,
+        {
+          sentence_id: this.sentence.id
+        }
+      ).then((res) => {
+        if (res.data.result) {
+          this.card.likeit = res.data.islike
+          this.card.likenum = res.data.likenum
+
+          this.waiting_process_islike = false
+        } else {
+        }
+      })
     }
   }
 }

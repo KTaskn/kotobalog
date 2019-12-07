@@ -429,6 +429,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert json['islike']
+    assert json['likenum'] == 1
 
     name2 = 'name2'
     password2 = 'test_password2'
@@ -485,6 +486,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert_not json['islike']
+    assert json['likenum'] == 0
 
     post api_sentence_like_url, params: {
       'name': name,

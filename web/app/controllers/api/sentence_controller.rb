@@ -94,6 +94,7 @@ class Api::SentenceController < AuthenticationController
     sentence_id = params[:sentence_id]
   
     ret = false
+    likenum = 0
     if not sentence_id.blank? then
       sentence = Sentence.find(sentence_id)
       user = User.find_by(name: name)
@@ -101,11 +102,16 @@ class Api::SentenceController < AuthenticationController
       if sentence and user then
         ret = sentence.islike(user)
       end
+
+      if sentence then
+        likenum = sentence.get_likes()
+      end
     end
-      
+    
     render :json => {
       'result': true,
-      'islike': ret
+      'islike': ret,
+      'likenum': likenum
     }
   end
 end

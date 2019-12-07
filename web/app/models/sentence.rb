@@ -5,7 +5,7 @@ class Sentence < ApplicationRecord
   belongs_to :user
 
   def islike(user)
-    if SentenceLike.find_by(user: user) then
+    if SentenceLike.find_by(user: user, sentence: self) then
       return true
     else
       return false
