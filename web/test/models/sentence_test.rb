@@ -116,4 +116,47 @@ class SentenceTest < ActiveSupport::TestCase
     assert SentenceLike.find_by(user: user).nil?
     assert sentence.like(nil) == false
   end
+
+  test "get like num" do
+    SentenceLike.all.delete_all
+
+    name0 = 'name0'
+    password0 = 'test_password0'
+    email0 = 'test_email0@example.com'
+    result0 = User.signup(name0, password0, password0, email0)
+    user0 = User.find_by(name: name0)
+
+    name1 = 'name1'
+    password1 = 'test_password1'
+    email1 = 'test_email1@example.com'
+    result1 = User.signup(name1, password1, password1, email1)
+    user1 = User.find_by(name: name1)
+    
+    title = 'test_title'
+    creator = 'test_creator'
+    publisher = 'test_publisher'
+    isbn = 0
+
+
+    book = Book.create(
+        title: title,
+        creator: creator,
+        publisher: publisher,
+        isbn: isbn
+    )
+    book.save!()
+
+    text = 'text'
+    sentence = Sentence.create(
+        user: user0,
+        book: book,
+        sentence: text
+    )
+    sentence.save!()
+    assert sentence.get_likes() == 0
+    assert sentence.like(user0) == true
+    assert sentence.get_likes() == 1
+    assert sentence.like(user1) == true
+    assert sentence.get_likes() == 2
+  end
 end

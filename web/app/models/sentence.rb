@@ -40,4 +40,8 @@ class Sentence < ApplicationRecord
       return false
     end
   end
+
+  def get_likes()
+    return SentenceLike.where(sentence: self).count
+  end
 end
