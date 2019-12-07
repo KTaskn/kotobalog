@@ -25,12 +25,14 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_note_url, params: {
       'name': name,
-      'access_token': json['access_token'],
       'title': title,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
       'sentence': sentence
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -50,12 +52,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert sentence_load.book == book_load
 
     post api_sentence_note_url, params: {
-      'name': name,
-      'access_token': 'other'
+      'name': name
+    },
+    headers: {
+      'Authorization': 'Token %s' % 'other'
     }
-    json = JSON.parse(response.body)
-    assert_response :success
-    assert_not json['result']
+    assert_response :unauthorized
   end
 
   test "sentence note error" do
@@ -82,12 +84,14 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_note_url, params: {
       'name': name,
-      'access_token': json['access_token'],
       'title': title,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
       'sentence': sentence
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -124,11 +128,13 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_note_url, params: {
       'name': name,
-      'access_token': json['access_token'],
       'title': title,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -155,8 +161,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert json['access_token']
 
     post api_sentence_get_url, params: {
-      'name': name,
-      'access_token': json['access_token']
+      'name': name
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -164,12 +172,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
 
     post api_sentence_get_url, params: {
-      'name': name,
-      'access_token': 'other'
+      'name': name
+    },
+    headers: {
+      'Authorization': 'Token %s' % 'other'
     }
-    json = JSON.parse(response.body)
-    assert_response :success
-    assert_not json['result']
+    assert_response :unauthorized
   end
 
   test "should post getmine accesstoken" do
@@ -190,8 +198,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_getmine_url, params: {
       'name': name,
-      'access_token': json['access_token'],
       'offset': 0
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -199,12 +209,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
 
     post api_sentence_getmine_url, params: {
-      'name': name,
-      'access_token': 'other'
+      'name': name
+    },
+    headers: {
+      'Authorization': 'Token %s' % 'other'
     }
-    json = JSON.parse(response.body)
-    assert_response :success
-    assert_not json['result']
+    assert_response :unauthorized
   end
 
   test "test getmine" do
@@ -241,12 +251,14 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     (0..num).each do |n|
       post api_sentence_note_url, params: {
         'name': name,
-        'access_token': access_token,
         'title': titles[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
         'sentence': sentences[n]
+      },
+      headers: {
+        'Authorization': 'Token %s' % access_token
       }
       json = JSON.parse(response.body)
       assert_response :success
@@ -265,8 +277,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_getmine_url, params: {
       'name': name,
-      'access_token': access_token,
       'offset': 0
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -288,8 +302,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_getmine_url, params: {
       'name': name,
-      'access_token': access_token,
       'offset': 1
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -308,8 +324,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_getmine_url, params: {
       'name': name,
-      'access_token': access_token,
       'offset': 2
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -371,8 +389,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_like_url, params: {
       'name': name,
-      'access_token': access_token,
       'sentence_id': sentence.id
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -397,8 +417,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_like_url, params: {
       'name': name2,
-      'access_token': access_token_2,
       'sentence_id': sentence.id
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token_2
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -409,8 +431,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_like_url, params: {
       'name': name,
-      'access_token': access_token,
       'sentence_id': sentence.id
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success
@@ -422,8 +446,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
 
     post api_sentence_like_url, params: {
       'name': name,
-      'access_token': access_token,
       'sentence_id': ''
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
     }
     json = JSON.parse(response.body)
     assert_response :success

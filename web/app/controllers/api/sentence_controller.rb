@@ -1,19 +1,5 @@
-class Api::SentenceController < ApplicationController
+class Api::SentenceController < AuthenticationController
   protect_from_forgery
-  before_action :check_access_token
-
-  private def check_access_token
-    name = params[:name]
-    str_access_token = params[:access_token]
-    user = User.find_by(name: name)
-    if user && user.check_access_token(str_access_token) then
-      return 
-    else
-      render :json => {
-        'result': false
-      }
-    end
-  end
 
   def note
     name = params[:name]

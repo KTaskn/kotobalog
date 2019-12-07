@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
-  test "test getmine" do
+  test "test get" do
     num = 10
 
     name = 'test_name_1'
@@ -35,12 +35,14 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     (0..num).each do |n|
       post api_sentence_note_url, params: {
         'name': name,
-        'access_token': access_token,
         'title': titles[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
         'sentence': sentences[n]
+      },
+      headers: {
+        'Authorization': 'Token %s' % access_token
       }
       json = JSON.parse(response.body)
       assert_response :success
@@ -57,6 +59,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       index += 1
     end
 
+    # 呼び出してチェック
     get api_timeline_get_url
     json = JSON.parse(response.body)
     assert_response :success
@@ -72,6 +75,52 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['creator'] == creator
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
+      assert ent['likenum'] == 0
+      assert ent['islike'] == false
+      index -= 1
+    end
+
+    # likeした版
+    Sentence.where(user: user).each do |sentence_load|
+      assert sentence_load.like(user) == true
+    end
+    
+    # ログイン時
+    get api_timeline_get_url
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['sentences']
+
+    index = titles.length - 1
+    json['sentences'].each do |ent|
+      assert ent['id']
+      assert ent['sentence'] == sentences[index]
+      assert ent['creator'] == creator
+      assert ent['publisher'] == publisher
+      assert ent['title'] == titles[index]
+      assert ent['likenum'] == 1
+      assert ent['islike'] == true
+      index -= 1
+    end
+
+
+    # ログインしていない
+    get api_timeline_get_url
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['sentences']
+
+    index = titles.length - 1
+    json['sentences'].each do |ent|
+      assert ent['id']
+      assert ent['sentence'] == sentences[index]
+      assert ent['creator'] == creator
+      assert ent['publisher'] == publisher
+      assert ent['title'] == titles[index]
+      assert ent['likenum'] == 1
+      assert ent['islike'] == false
       index -= 1
     end
   end
