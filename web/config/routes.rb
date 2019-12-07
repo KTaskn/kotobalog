@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   namespace :api do
     get 'timeline/get'
 
-    post 'sentence/note'
-    post 'sentence/get'
-    post 'sentence/getmine'
-    post 'sentence/like'
+    get 'sentence/get'
+    get 'sentence/getmine'
     get 'sentence/islike'
+    post 'sentence/note'
+    post 'sentence/like'
 
     get 'status/check'
     

@@ -58,6 +58,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       'Authorization': 'Token %s' % 'other'
     }
     assert_response :unauthorized
+
+
+    post api_sentence_note_url, params: {
+      'name': name
+    }
+    assert_response :unauthorized
   end
 
   test "sentence note error" do
@@ -160,7 +166,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
     assert json['access_token']
 
-    post api_sentence_get_url, params: {
+    get api_sentence_get_url, params: {
       'name': name
     },
     headers: {
@@ -171,11 +177,16 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
 
 
-    post api_sentence_get_url, params: {
+    get api_sentence_get_url, params: {
       'name': name
     },
     headers: {
       'Authorization': 'Token %s' % 'other'
+    }
+    assert_response :unauthorized
+
+    get api_sentence_get_url, params: {
+      'name': name
     }
     assert_response :unauthorized
   end
@@ -196,7 +207,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
     assert json['access_token']
 
-    post api_sentence_getmine_url, params: {
+    get api_sentence_getmine_url, params: {
       'name': name,
       'offset': 0
     },
@@ -208,11 +219,17 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert json['result']
 
 
-    post api_sentence_getmine_url, params: {
+    get api_sentence_getmine_url, params: {
       'name': name
     },
     headers: {
       'Authorization': 'Token %s' % 'other'
+    }
+    assert_response :unauthorized
+
+
+    get api_sentence_getmine_url, params: {
+      'name': name
     }
     assert_response :unauthorized
   end
@@ -275,7 +292,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       index += 1
     end
 
-    post api_sentence_getmine_url, params: {
+    get api_sentence_getmine_url, params: {
       'name': name,
       'offset': 0
     },
@@ -300,7 +317,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       index -= 1
     end
 
-    post api_sentence_getmine_url, params: {
+    get api_sentence_getmine_url, params: {
       'name': name,
       'offset': 1
     },
@@ -322,7 +339,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       index -= 1
     end
 
-    post api_sentence_getmine_url, params: {
+    get api_sentence_getmine_url, params: {
       'name': name,
       'offset': 2
     },
