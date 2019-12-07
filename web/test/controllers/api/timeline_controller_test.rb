@@ -76,7 +76,6 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
-      assert ent['islike'] == false
       index -= 1
     end
 
@@ -100,27 +99,6 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 1
-      assert ent['islike'] == true
-      index -= 1
-    end
-
-
-    # ログインしていない
-    get api_timeline_get_url
-    json = JSON.parse(response.body)
-    assert_response :success
-    assert json['result']
-    assert json['sentences']
-
-    index = titles.length - 1
-    json['sentences'].each do |ent|
-      assert ent['id']
-      assert ent['sentence'] == sentences[index]
-      assert ent['creator'] == creator
-      assert ent['publisher'] == publisher
-      assert ent['title'] == titles[index]
-      assert ent['likenum'] == 1
-      assert ent['islike'] == false
       index -= 1
     end
   end

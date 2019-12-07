@@ -400,6 +400,19 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     
     assert SentenceLike.where(sentence: sentence).count == 1
 
+
+    get api_sentence_islike_url, params: {
+      'name': name,
+      'sentence_id': sentence.id
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['islike']
+
     name2 = 'name2'
     password2 = 'test_password2'
     email2 = 'test_email2@example.com'
@@ -443,6 +456,18 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert SentenceLike.where(sentence: sentence).count == 1
     assert SentenceLike.where(user: user).count == 0
 
+
+    get api_sentence_islike_url, params: {
+      'name': name,
+      'sentence_id': sentence.id
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert_not json['islike']
 
     post api_sentence_like_url, params: {
       'name': name,

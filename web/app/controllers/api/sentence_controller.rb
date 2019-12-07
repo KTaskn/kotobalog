@@ -88,4 +88,24 @@ class Api::SentenceController < AuthenticationController
       'result': ret
     }
   end
+
+  def islike
+    name = params[:name]
+    sentence_id = params[:sentence_id]
+  
+    ret = false
+    if not sentence_id.blank? then
+      sentence = Sentence.find(sentence_id)
+      user = User.find_by(name: name)
+
+      if sentence and user then
+        ret = sentence.islike(user)
+      end
+    end
+      
+    render :json => {
+      'result': true,
+      'islike': ret
+    }
+  end
 end

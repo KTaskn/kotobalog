@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     post 'sentence/get'
     post 'sentence/getmine'
     post 'sentence/like'
+    get 'sentence/islike'
 
     get 'status/check'
     
