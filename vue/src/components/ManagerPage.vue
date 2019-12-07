@@ -40,19 +40,18 @@ export default {
   },
   methods: {
     get_sentences () {
-      this.post_note('/sentence/getmine', {
+      this.get_note('/sentence/getmine', {
         offset: this.page
       })
     },
-    post_note (url, data) {
-      return Global.post_wrapper(
+    get_note (url, data) {
+      return Global.get_wrapper(
         url,
         {
           offset: data.offset
         }
       ).then((res) => {
         if (res.data.result) {
-          console.log(res.data)
           this.l_sentence = res.data.sentences
           this.is_over = res.data.is_over
           this.check_pagebutton()
