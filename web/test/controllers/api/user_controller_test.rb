@@ -251,20 +251,35 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     refresh_token_1 = json['refresh_token']
 
     post api_user_refresh_url, params: {
-        'name': name,
-        'refresh_token': json['refresh_token']
-      }
+      'name': name,
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['refresh_token']
+    }
 
     json = JSON.parse(response.body)
     assert_response :success
+    assert json['result']
     assert json['access_token']
     assert json['refresh_token']
     assert json['access_token_expiration']
     assert json['refresh_token_expiration']
     assert_not json['access_token'] == access_token_1
     assert_not json['refresh_token'] == refresh_token_1
-    
-    
+
+    post api_user_refresh_url, params: {
+      'name': name,
+    },
+    headers: {
+      'Authorization': 'Token %s' % 'other'
+    }
+    assert_response :unauthorized
+
+
+    post api_user_refresh_url, params: {
+      'name': name
+    }
+    assert_response :unauthorized
   end
 
 
