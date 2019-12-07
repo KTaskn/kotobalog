@@ -98,14 +98,52 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert json['access_token_expiration']
     assert json['refresh_token_expiration']
 
-
-    post api_user_signout_url params: {
-      name: name,
-      access_token: json['access_token']
+    post api_user_signout_url, params: {
+      'name': name,
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     assert_response :success
     assert_not User.find_by(name: name).check_access_token(json['access_token'])
     assert_not User.find_by(name: name).check_refresh_token(json['refresh_token'])
+  end
+
+
+  test "should bad signout" do
+    # ユーザを作成
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+
+    post api_user_signin_url, params: {
+      name_or_email: name,
+      password: password
+    }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert User.find_by(name: name).check_access_token(json['access_token'])
+    assert User.find_by(name: name).check_refresh_token(json['refresh_token'])
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
+
+    post api_user_signout_url, params: {
+      'name': name,
+    },
+    headers: {
+      'Authorization': 'Token %s' % 'other'
+    }
+    assert_response :unauthorized
+    assert User.find_by(name: name).check_access_token(json['access_token'])
+    assert User.find_by(name: name).check_refresh_token(json['refresh_token'])
   end
 
   test "should get signin email" do
@@ -133,10 +171,11 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert json['access_token_expiration']
     assert json['refresh_token_expiration']
 
-
-    post api_user_signout_url params: {
-      name: name,
-      access_token: json['access_token']
+    post api_user_signout_url, params: {
+      'name': name,
+    },
+    headers: {
+      'Authorization': 'Token %s' % json['access_token']
     }
     assert_response :success
     assert_not User.find_by(name: name).check_access_token(json['access_token'])

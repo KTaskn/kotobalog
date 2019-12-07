@@ -2,8 +2,7 @@ class AuthenticationController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
   before_action :check_access_token
   
-  protected
-  def check_access_token
+  protected def check_access_token
     authorized = authenticate_token() || render_unauthorized()
   end
 

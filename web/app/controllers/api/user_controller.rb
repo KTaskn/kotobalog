@@ -1,5 +1,6 @@
 class Api::UserController < ApplicationController
   protect_from_forgery
+
   def signup
     name = params[:name]
     password = params[:password]
@@ -70,19 +71,23 @@ class Api::UserController < ApplicationController
     render :json => result_json
   end
 
-  def signout
+  def signout    
     name = params[:name]
-    str_access_token = params[:access_token]
     user = User.find_by(name: name)
-    if user && user.check_access_token(str_access_token) then
-      user.signout()
-      render :json => {
-        'result': true
-      }
-    else
-      render :json => {
-        'result': false
-      }
+
+    logger.info('this is signout')
+    authenticate_or_request_with_http_token do |token, options|
+      logger.info('token is ' + token)
+      if user && user.check_access_token(token) then
+        user.signout()
+        render :json => {
+          'result': true
+        }
+      else
+        render :json => {
+          'result': false
+        }, status: :unauthorized
+      end
     end
   end
 
