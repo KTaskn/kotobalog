@@ -62,11 +62,9 @@ export default {
       this.$router.push({ path: '/signup' })
     },
     raise_show_signout () {
-      console.log('raise')
       this.flag_show_signout = true
     },
     drop_show_signout () {
-      console.log('drop')
       this.flag_show_signout = false
     }
   }
