@@ -29,7 +29,9 @@ import Global from '@/global/index'
 export default {
   props: ['sentence'],
   mounted () {
-    this.get_islike()
+    if (localStorage.access_token) {
+      this.get_islike()
+    }
     if (this.sentence.title || this.sentence.publisher) {
       this.show_text = true
     }
@@ -50,7 +52,7 @@ export default {
   },
   methods: {
     like () {
-      if (this.waiting_process_islike === false) {
+      if (localStorage.access_token && this.waiting_process_islike === false) {
         this.post_request_like('/sentence/like')
       }
     },
@@ -63,7 +65,7 @@ export default {
       ).then((res) => {
         if (res.data.result) {
           this.card.likeit = res.data.islikes
-          setTimeout(this.get_islike(), 5000)
+          this.get_islike()
         } else {
         }
       })
