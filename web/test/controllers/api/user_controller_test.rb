@@ -282,5 +282,91 @@ class Api::UserControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "check namecheck" do
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['access_token']
+    assert json['refresh_token']
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
+    assert json['name'] == name
 
+    get api_user_namecheck_url, params: {
+      'name': name
+    }
+
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['is_duplicated']
+
+
+    get api_user_namecheck_url, params: {
+      'name': 'other'
+    }
+
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert_not json['is_duplicated']
+
+
+    get api_user_namecheck_url
+    assert_response :bad_request
+  end
+
+  test "check emailcheck" do
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['access_token']
+    assert json['refresh_token']
+    assert json['access_token_expiration']
+    assert json['refresh_token_expiration']
+    assert json['name'] == name
+
+    get api_user_emailcheck_url, params: {
+      'email': email
+    }
+
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['is_duplicated']
+
+
+    get api_user_emailcheck_url, params: {
+      'email': 'other'
+    }
+
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert_not json['is_duplicated']
+
+
+    get api_user_emailcheck_url
+    assert_response :bad_request
+  end
 end
