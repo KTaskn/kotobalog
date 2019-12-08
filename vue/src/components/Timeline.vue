@@ -11,7 +11,6 @@
 
 <script>
 import Global from '@/global/index'
-import axios from 'axios'
 import TimelineCard from '@/components/TimelineCard'
 export default {
   mounted () {
@@ -31,8 +30,8 @@ export default {
       this.get_note('/timeline/get')
     },
     get_note (url, data = {}) {
-      return axios.get(
-        Global.API_URL + url
+      return Global.get_wrapper(
+        url
       ).then((res) => {
         if (res.data.result) {
           this.l_sentence = res.data.sentences

@@ -1,19 +1,5 @@
-class Api::SentenceController < ApplicationController
+class Api::SentenceController < AuthenticationController
   protect_from_forgery
-  before_action :check_access_token
-
-  private def check_access_token
-    name = params[:name]
-    str_access_token = params[:access_token]
-    user = User.find_by(name: name)
-    if user && user.check_access_token(str_access_token) then
-      return 
-    else
-      render :json => {
-        'result': false
-      }
-    end
-  end
 
   def note
     name = params[:name]
@@ -73,7 +59,8 @@ class Api::SentenceController < ApplicationController
         'sentence': a_sentence.sentence,
         'creator': a_sentence.book.creator,
         'publisher': a_sentence.book.publisher,
-        'title': a_sentence.book.title
+        'title': a_sentence.book.title,
+        'likenum': a_sentence.get_likes()
       }
     end
 
@@ -81,6 +68,51 @@ class Api::SentenceController < ApplicationController
       'result': true,
       'sentences': ret_sentences,
       'is_over': is_over
+    }
+  end
+
+  def like
+    name = params[:name]
+    sentence_id = params[:sentence_id]
+  
+    ret = false
+    if not sentence_id.blank? then
+      sentence = Sentence.find(sentence_id)
+      user = User.find_by(name: name)
+
+      if sentence and user then
+        ret = sentence.switch_like(user)
+      end
+    end
+      
+    render :json => {
+      'result': ret
+    }
+  end
+
+  def islike
+    name = params[:name]
+    sentence_id = params[:sentence_id]
+  
+    ret = false
+    likenum = 0
+    if not sentence_id.blank? then
+      sentence = Sentence.find(sentence_id)
+      user = User.find_by(name: name)
+
+      if sentence and user then
+        ret = sentence.islike(user)
+      end
+
+      if sentence then
+        likenum = sentence.get_likes()
+      end
+    end
+    
+    render :json => {
+      'result': true,
+      'islike': ret,
+      'likenum': likenum
     }
   end
 end

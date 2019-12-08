@@ -1,5 +1,6 @@
 class Api::UserController < ApplicationController
   protect_from_forgery
+
   def signup
     name = params[:name]
     password = params[:password]
@@ -70,40 +71,53 @@ class Api::UserController < ApplicationController
     render :json => result_json
   end
 
-  def signout
+  def signout    
     name = params[:name]
-    str_access_token = params[:access_token]
     user = User.find_by(name: name)
-    if user && user.check_access_token(str_access_token) then
-      user.signout()
-      render :json => {
-        'result': true
-      }
-    else
-      render :json => {
-        'result': false
-      }
+
+    logger.info('this is signout')
+    authenticate_or_request_with_http_token do |token, options|
+      logger.info('token is ' + token)
+      if user && user.check_access_token(token) then
+        user.signout()
+        render :json => {
+          'result': true
+        }
+      else
+        render :json => {
+          'result': false
+        }, status: :unauthorized
+      end
     end
   end
 
   def refresh
     name = params[:name]
-    str_refresh_token = params[:refresh_token]
-
     user = User.find_by(name: name)
 
-    result = false
-    if user then
-      result, access_token, refresh_token = user.refresh(str_refresh_token)
-    end
+    authenticate_or_request_with_http_token do |token, options|
+      result = false
+      access_token = nil
+      refresh_token = nil
 
-    render :json => {
-      'result': result,
-      'name': name,
-      'access_token': access_token.nil? ? '' : access_token.token,
-      'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
-      'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
-      'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
-    }
+      if user then
+        result, access_token, refresh_token = user.refresh(token)
+      end
+
+      if result then
+        render :json => {
+          'result': result,
+          'name': name,
+          'access_token': access_token.nil? ? '' : access_token.token,
+          'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
+          'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
+          'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
+        }
+      else
+        render :json => {
+          'result': false
+        }, status: :unauthorized
+      end
+    end
   end
 end

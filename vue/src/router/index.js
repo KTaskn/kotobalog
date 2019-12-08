@@ -6,12 +6,17 @@ import SignupPage from '@/components/SignupPage'
 import SigninPage from '@/components/SigninPage'
 import NotePage from '@/components/NotePage'
 import ManagerPage from '@/components/ManagerPage'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
+import { faTwitter as fabTwitter } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {
   BNavbar, BNavbarBrand, BNavbarNav, BNavItem, BNavItemDropdown,
   BForm, BFormGroup, BFormInput,
-  BButton, BCard, BCardText,
+  BButton, BCard, BCardText, BCardFooter, BCardBody, BCardTitle, BCardSubTitle,
   BContainer, BCol, BRow, BCollapse,
   BTooltip, TooltipPlugin, DropdownPlugin, BFormTextarea,
   VBToggle
@@ -27,7 +32,11 @@ Vue.component('b-form-group', BFormGroup)
 Vue.component('b-form-input', BFormInput)
 Vue.component('b-button', BButton)
 Vue.component('b-card', BCard)
+Vue.component('b-card-body', BCardBody)
 Vue.component('b-card-text', BCardText)
+Vue.component('b-card-footer', BCardFooter)
+Vue.component('b-card-title', BCardTitle)
+Vue.component('b-card-sub-title', BCardSubTitle)
 Vue.component('b-container', BContainer)
 Vue.component('b-col', BCol)
 Vue.component('b-row', BRow)
@@ -36,6 +45,8 @@ Vue.component('b-tooltip', BTooltip)
 Vue.component('b-form-textarea', BFormTextarea)
 Vue.use(TooltipPlugin)
 Vue.directive('b-toggle', VBToggle)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+library.add(fasHeart, farHeart, fabTwitter)
 
 Vue.use(Router)
 Vue.use(EventHub)
