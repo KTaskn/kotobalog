@@ -51,8 +51,8 @@ export default {
         localStorage.removeItem('name')
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
-        this.$router.push({ path: '/' })
         this.drop_show_signout()
+        window.location = '/'
       })
     },
     signin () {

@@ -19,7 +19,8 @@ import {
   BButton, BCard, BCardText, BCardFooter, BCardBody, BCardTitle, BCardSubTitle,
   BContainer, BCol, BRow, BCollapse,
   BTooltip, TooltipPlugin, DropdownPlugin, BFormTextarea,
-  VBToggle
+  VBToggle,
+  BAlert
 } from 'bootstrap-vue'
 Vue.component('b-navbar', BNavbar)
 Vue.component('b-navbar-brand', BNavbarBrand)
@@ -43,8 +44,10 @@ Vue.component('b-row', BRow)
 Vue.component('b-collapse', BCollapse)
 Vue.component('b-tooltip', BTooltip)
 Vue.component('b-form-textarea', BFormTextarea)
+Vue.component('b-alert', BAlert)
 Vue.use(TooltipPlugin)
 Vue.directive('b-toggle', VBToggle)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 library.add(fasHeart, farHeart, fabTwitter)
 
