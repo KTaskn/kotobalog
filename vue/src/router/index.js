@@ -6,6 +6,11 @@ import SignupPage from '@/components/SignupPage'
 import SigninPage from '@/components/SigninPage'
 import NotePage from '@/components/NotePage'
 import ManagerPage from '@/components/ManagerPage'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
+import { faTwitter as fabTwitter } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {
@@ -16,9 +21,6 @@ import {
   BTooltip, TooltipPlugin, DropdownPlugin, BFormTextarea,
   VBToggle
 } from 'bootstrap-vue'
-import Icon from 'vue-awesome/components/Icon'
-import 'vue-awesome/icons/heart'
-import 'vue-awesome/icons/regular/heart'
 Vue.component('b-navbar', BNavbar)
 Vue.component('b-navbar-brand', BNavbarBrand)
 Vue.component('b-navbar-nav', BNavbarNav)
@@ -43,8 +45,8 @@ Vue.component('b-tooltip', BTooltip)
 Vue.component('b-form-textarea', BFormTextarea)
 Vue.use(TooltipPlugin)
 Vue.directive('b-toggle', VBToggle)
-
-Vue.component('v-icon', Icon)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+library.add(fasHeart, farHeart, fabTwitter)
 
 Vue.use(Router)
 Vue.use(EventHub)

@@ -14,8 +14,8 @@
     </b-card-body>
     <b-card-footer class="text-left">
       <div v-on:click="like">
-        <v-icon name="heart" color="#f00" scale="1" v-if="card.likeit"/>
-        <v-icon name="regular/heart" scale="1" v-else/>
+        <font-awesome-icon :icon="['fas', 'heart']" color="#f00" size="1x" v-if="card.likeit" />
+        <font-awesome-icon :icon="['far', 'heart']" size="1x" v-else/>
         <span id="likeit">
           {{ card.likenum }}
         </span>

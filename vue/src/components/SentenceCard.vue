@@ -13,13 +13,15 @@
       <b-card-text v-if="show_text">{{ card.publisher }} {{ card.title }}</b-card-text>
     </b-card-body>
     <b-card-footer class="text-left">
-      <div v-on:click="like">
-        <v-icon name="heart" color="#f00" scale="1" v-if="card.likeit"/>
-        <v-icon name="regular/heart" scale="1" v-else/>
+      <div class="footer-entity">
+        <font-awesome-icon :icon="['fab', 'twitter']" color="#00acee" size="1x" v-on:click="popUpTweetWindow"/>
+      </div>
+      <div class="footer-entity" v-on:click="like">
+        <font-awesome-icon :icon="['fas', 'heart']" color="#f00" size="1x" v-if="card.likeit" />
+        <font-awesome-icon :icon="['far', 'heart']" size="1x" v-else/>
         <span id="likeit">
           {{ card.likenum }}
         </span>
-        <b-button id="tweet-button" v-on:click="popUpTweetWindow" size="sm">ツイート</b-button>
       </div>
     </b-card-footer>
   </b-card>
@@ -111,9 +113,14 @@ export default {
 </script>
 
 <style scoped>
-#tweet-button {
-  background-color: #00acee;
-  border-color: #00acee;
-  font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
+#likeit {
+  display: inline-block;
+  vertical-align: -0.1em;
+  width: 5em;
+  text-align: left;
+}
+.footer-entity {
+  float: left;
+  margin-right: 0.5em;
 }
 </style>
