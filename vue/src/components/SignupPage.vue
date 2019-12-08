@@ -3,7 +3,11 @@
     <b-form @submit="onSubmit">
       <span>利用には登録が必要です。</span>
       <span>アカウントをもっている場合は<router-link to="/signin">サインイン</router-link>してください</span>
-      <span v-show=haserror>作成できませんでした</span>
+      <b-alert variant="danger" :show="haserror">作成できませんでした</b-alert>
+      <b-alert variant="danger" :show="form.name.length > 16">ユーザ名は半角英数字15文字以下の必要があります</b-alert>
+      <b-alert variant="warning" :show="is_duplicated_name">申し訳ございません。そのユーザ名はすでに他の方に利用されています。</b-alert>
+      <b-alert variant="warning" :show="is_duplicated_email">メールアドレスはすでに登録済みです。</b-alert>
+      <b-alert variant="danger" :show="form.password !== form.password_check">パスワードとパスワード（確認用）が一致しません</b-alert>
       <b-form-group id="input-group-1" class="text-left signupinput" label="ユーザ名:" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -11,6 +15,7 @@
           type="text"
           required
           placeholder=""
+          @change="checkname"
           v-b-tooltip.hover title="半角英数字15文字以下で希望のユーザ名を記入してください"
         ></b-form-input>
       </b-form-group>
@@ -44,6 +49,7 @@
           type="email"
           required
           placeholder=""
+          @change="checkemail"
         ></b-form-input>
       </b-form-group>
 
@@ -66,7 +72,9 @@ export default {
         password: '',
         password_check: ''
       },
-      haserror: false
+      haserror: false,
+      is_duplicated_name: false,
+      is_duplicated_email: false
     }
   },
   methods: {
@@ -101,6 +109,33 @@ export default {
           this.$eventHub.$emit('drop_show_signout')
           this.haserror = true
         }
+      })
+    },
+    checkname () {
+      this.get_namecheck('/user/namecheck', this.form.name)
+    },
+    get_namecheck (url, name) {
+      return Global.get_wrapper(
+        url,
+        {
+          name: name
+        }
+      ).then((res) => {
+        this.is_duplicated_name = res.data.is_duplicated
+      })
+    },
+    checkemail () {
+      console.log('checkemail')
+      this.get_emailcheck('/user/emailcheck', this.form.email)
+    },
+    get_emailcheck (url, email) {
+      return Global.get_wrapper(
+        url,
+        {
+          email: email
+        }
+      ).then((res) => {
+        this.is_duplicated_email = res.data.is_duplicated
       })
     }
   }

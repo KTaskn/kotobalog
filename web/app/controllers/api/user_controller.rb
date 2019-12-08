@@ -120,4 +120,49 @@ class Api::UserController < ApplicationController
       end
     end
   end
+
+  def namecheck
+    name = params[:name]
+    if name then
+      ret = User.find_by(name: name)
+      if ret then
+        render :json => {
+          'result': true,
+          'is_duplicated': true
+        }
+      else
+        render :json => {
+          'result': true,
+          'is_duplicated': false
+        }
+      end
+    else
+      render :json => {
+        'result': false
+      }, status: :bad_request
+    end
+  end
+
+
+  def emailcheck
+    email = params[:email]
+    if email then
+      ret = User.find_by(email: email)
+      if ret then
+        render :json => {
+          'result': true,
+          'is_duplicated': true
+        }
+      else
+        render :json => {
+          'result': true,
+          'is_duplicated': false
+        }
+      end
+    else
+      render :json => {
+        'result': false
+      }, status: :bad_request
+    end
+  end
 end

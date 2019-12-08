@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
     get 'status/check'
     
+    get 'user/namecheck'
+    get 'user/emailcheck'
     post 'user/signup'
     post 'user/signin'
     post 'user/signout'

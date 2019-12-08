@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <b-form @submit="onSubmit">
-      <span v-show=haserror>ログインできませんでした</span>
+      <b-alert variant="danger" :show="haserror">ログインできませんでした</b-alert>
+
       <b-form-group id="input-group-1" class="text-left" label="ユーザ名 または メールアドレス:" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -55,6 +56,7 @@ export default {
           password: data.password
         }
       ).then((res) => {
+        console.log('signin')
         if (res.data.result) {
           localStorage.name = res.data.name
           localStorage.access_token = res.data.access_token

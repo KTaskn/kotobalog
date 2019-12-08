@@ -6,6 +6,15 @@ const API_URL = process.env.API_URL
 export default {
   APP_NAME: APP_NAME,
   API_URL: API_URL,
+  initializing_authorization_and_redirect_top: function () {
+    console.log('ログイン情報が存在しませんでした。トップページに遷移します。')
+    localStorage.removeItem('name')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    localStorage.removeItem('access_token_expiration')
+    localStorage.removeItem('refresh_token_expiration')
+    window.location = '/'
+  },
   refresh_token: function () {
     // トークンの期限判定
     let now = new Date()
@@ -32,11 +41,8 @@ export default {
           localStorage.refresh_token = res.data.refresh_token
           localStorage.refresh_token_expiration = res.data.refresh_token_expiration
         } else {
-          localStorage.removeItem('name')
-          localStorage.removeItem('access_token')
-          localStorage.removeItem('refresh_token')
-          localStorage.removeItem('access_token_expiration')
-          localStorage.removeItem('refresh_token_expiration')
+          // 認証エラーの場合はlocalStorageの認証情報を削除してトップページにリダイレクトする
+          this.initializing_authorization_and_redirect_top()
         }
       })
     }
@@ -55,7 +61,13 @@ export default {
       {
         headers: headers
       }
-    )
+    ).catch(err => {
+      console.log('you got error:', err)
+      if (err.response.status === 401) {
+        // 認証エラーの場合はlocalStorageの認証情報を削除してトップページにリダイレクトする
+        this.initializing_authorization_and_redirect_top()
+      }
+    })
   },
   get_wrapper: function (url, params = {}, headers = {'Content-Type': 'application/json'}) {
     if (localStorage.access_token) {
@@ -71,6 +83,12 @@ export default {
         params: params,
         headers: headers
       }
-    )
+    ).catch(err => {
+      console.log('you got error:', err)
+      if (err.response.status === 401) {
+        // 認証エラーの場合はlocalStorageの認証情報を削除してトップページにリダイレクトする
+        this.initializing_authorization_and_redirect_top()
+      }
+    })
   }
 }
