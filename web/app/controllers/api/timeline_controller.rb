@@ -9,8 +9,7 @@ class Api::TimelineController < ApplicationController
         'creator': a_sentence.book.creator,
         'publisher': a_sentence.book.publisher,
         'title': a_sentence.book.title,
-        'likenum': a_sentence.get_likes(),
-        'islike': false
+        'likenum': a_sentence.get_likes()
       }
     end
 

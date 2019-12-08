@@ -59,7 +59,8 @@ class Api::SentenceController < AuthenticationController
         'sentence': a_sentence.sentence,
         'creator': a_sentence.book.creator,
         'publisher': a_sentence.book.publisher,
-        'title': a_sentence.book.title
+        'title': a_sentence.book.title,
+        'likenum': a_sentence.get_likes()
       }
     end
 

@@ -314,6 +314,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['creator'] == creator
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
+      assert ent['likenum'] == 0
       index -= 1
     end
 
@@ -486,7 +487,6 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert_not json['islike']
-    assert json['likenum'] == 0
 
     post api_sentence_like_url, params: {
       'name': name,
