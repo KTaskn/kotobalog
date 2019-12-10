@@ -167,7 +167,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 5
+    assert json['offset'] == 2
     assert json['lastid']
 
     assert json['sentences'].length == 5
@@ -191,7 +191,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 10
+    assert json['offset'] == 3
     assert json['lastid'] == json['lastid']
 
     assert json['sentences'].length == 5
@@ -230,7 +230,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 15
+    assert json['offset'] == 4
     assert json['lastid'] == json['lastid']
 
     assert json['sentences'].length == 5

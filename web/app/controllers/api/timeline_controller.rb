@@ -5,10 +5,10 @@ class Api::TimelineController < ApplicationController
     lastid = params[:lastid]
 
     if offset and lastid then
-      l_sentence = Sentence.where("id <= :id", id: lastid).order(id: :desc).limit(SIZE).offset(offset)
-      offset = offset.to_i + SIZE
+      l_sentence = Sentence.where("id <= :id", id: lastid).order(id: :desc).limit(SIZE).offset((offset.to_i - 1) * SIZE)
+      offset = offset.to_i + 1
     else
-      offset = SIZE
+      offset = 2
       l_sentence = Sentence.order(id: :desc).limit(SIZE)
       if l_sentence then
         lastid = l_sentence[0].id

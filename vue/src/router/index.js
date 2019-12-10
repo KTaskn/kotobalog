@@ -20,7 +20,8 @@ import {
   BContainer, BCol, BRow, BCollapse,
   BTooltip, TooltipPlugin, DropdownPlugin, BFormTextarea,
   VBToggle,
-  BAlert
+  BAlert,
+  BPaginationNav
 } from 'bootstrap-vue'
 Vue.component('b-navbar', BNavbar)
 Vue.component('b-navbar-brand', BNavbarBrand)
@@ -45,6 +46,7 @@ Vue.component('b-collapse', BCollapse)
 Vue.component('b-tooltip', BTooltip)
 Vue.component('b-form-textarea', BFormTextarea)
 Vue.component('b-alert', BAlert)
+Vue.component('b-pagination-nav', BPaginationNav)
 Vue.use(TooltipPlugin)
 Vue.directive('b-toggle', VBToggle)
 

@@ -5,7 +5,17 @@
       class="timelinecard"
       v-for="a_sentence in l_sentence"
       v-bind:key="a_sentence.id"
-      v-bind:sentence="a_sentence"></TimelineCard>
+      v-bind:sentence="a_sentence"
+      ></TimelineCard>
+
+    <b-pagination-nav
+      base-url="#"
+      :value="currentpage"
+      :number-of-pages="numpage"
+      :hide-goto-end-buttons="true"
+      @change="next"
+      align="center"
+    ></b-pagination-nav>
   </div>
 </template>
 
@@ -19,7 +29,9 @@ export default {
   data () {
     return {
       l_sentence: [
-      ]
+      ],
+      currentpage: 3,
+      numpage: 5
     }
   },
   components: {
@@ -38,6 +50,9 @@ export default {
         } else {
         }
       })
+    },
+    next () {
+      console.log('next')
     }
   }
 }
