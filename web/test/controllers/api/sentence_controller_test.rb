@@ -500,13 +500,30 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
         'password_check': password,
         'email': email
       }
-    
     json = JSON.parse(response.body)
     assert_response :success
     assert json['result']
     assert json['access_token']
     access_token = json['access_token']
 
+
+      # 他人のデータも追加する
+    name2 = 'test_name_2'
+    password2 = 'test_password'
+    email2 = 'email_2@example.com'
+    post api_user_signup_url, params: {
+      'name': name2,
+      'password': password2,
+      'password_check': password2,
+      'email': email2
+    }    
+    json_other = JSON.parse(response.body)
+    assert_response :success
+    assert json_other['result']
+    assert json_other['access_token']
+    access_token_other = json_other['access_token']
+
+  
     sentences = (0..num).map do |n|
       sprintf('テストセンテンス_%d', n)
     end
@@ -534,6 +551,22 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       json = JSON.parse(response.body)
       assert_response :success
       assert json['result']
+
+      # 他人のデータも混ぜる
+      post api_sentence_note_url, params: {
+        'name': name2,
+        'title': 'other',
+        'creator': 'other',
+        'publisher': 'other',
+        'isbn': '',
+        'sentence': 'other data'
+      },
+      headers: {
+        'Authorization': 'Token %s' % access_token_other
+      }
+      json_other = JSON.parse(response.body)
+      assert_response :success
+      assert json_other['result']
     end
 
     user = User.find_by(name: name)

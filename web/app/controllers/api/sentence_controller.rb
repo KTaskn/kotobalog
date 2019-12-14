@@ -54,8 +54,8 @@ class Api::SentenceController < AuthenticationController
     user = User.find_by(name: name)
 
     if page and lastid then
-      l_sentence = Sentence.where("id <= :id", id: lastid, user: user).order(id: :desc).limit(MINE_SIZE).offset((page.to_i - 1) * MINE_SIZE)
-      numpage = (Sentence.where("id <= :id", id: lastid, user: user).count / MINE_SIZE.to_f).ceil
+      l_sentence = Sentence.where("id <= :id", id: lastid).where(user: user).order(id: :desc).limit(MINE_SIZE).offset((page.to_i - 1) * MINE_SIZE)
+      numpage = (Sentence.where("id <= :id", id: lastid).where(user: user).count / MINE_SIZE.to_f).ceil
     else
       l_sentence = Sentence.where(user: user).order(id: :desc).limit(MINE_SIZE)
       if l_sentence.empty? then
