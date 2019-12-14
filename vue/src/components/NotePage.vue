@@ -34,7 +34,13 @@
       </b-form-group>
 
       <div class="clearfix">
-      <b-button v-b-toggle.collapse class="float-left" size="sm">本の詳細を追加</b-button>
+        <b-button variant="danger"
+        @click="creator_is_unknown"
+        class="float-right" size="sm">作者は不明です</b-button>
+      </div>
+
+      <div class="clearfix">
+        <b-button v-b-toggle.collapse class="float-left" size="sm">本の詳細を追加</b-button>
       </div>
 
       <div>
@@ -97,6 +103,9 @@ export default {
     }
   },
   methods: {
+    creator_is_unknown: function (event) {
+      this.form.creator = '作者不明'
+    },
     onSubmit (evt) {
       this.post_note('/sentence/note', this.form)
       return ''

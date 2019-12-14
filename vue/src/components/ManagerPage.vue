@@ -54,7 +54,7 @@ export default {
         data
       ).then((res) => {
         if (res.data.result) {
-          this.l_sentence = res.data.sentences          
+          this.l_sentence = res.data.sentences
           this.numpage = res.data.numpage
           this.lastid = res.data.lastid
         } else {
