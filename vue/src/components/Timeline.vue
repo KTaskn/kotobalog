@@ -65,7 +65,8 @@ export default {
       })
     },
     linkGen (pagenum) {
-      return '/#'
+      scrollTo(0, 0)
+      return '#'
     }
   }
 }

@@ -48,10 +48,24 @@ class Api::SentenceController < AuthenticationController
   MINE_SIZE = 5
   def getmine
     name = params[:name]
-    offset = params[:offset].to_i()
+    page = params[:page]
+    lastid = params[:lastid]
+
     user = User.find_by(name: name)
-    l_sentence = Sentence.where(user: user).order(id: :desc).limit(MINE_SIZE).offset(offset * MINE_SIZE)
-    is_over = Sentence.where(user: user).count <= (offset + 1) * MINE_SIZE
+
+    if page and lastid then
+      l_sentence = Sentence.where("id <= :id", id: lastid, user: user).order(id: :desc).limit(MINE_SIZE).offset((page.to_i - 1) * MINE_SIZE)
+      numpage = (Sentence.where("id <= :id", id: lastid, user: user).count / MINE_SIZE.to_f).ceil
+    else
+      l_sentence = Sentence.where(user: user).order(id: :desc).limit(MINE_SIZE)
+      if l_sentence.empty? then
+        lastid = 0
+        numpage = 1
+      else
+        lastid = l_sentence[0].id
+        numpage = (Sentence.where(user: user).count / MINE_SIZE.to_f).ceil
+      end
+    end
 
     ret_sentences = l_sentence.map do |a_sentence|
       {
@@ -66,8 +80,9 @@ class Api::SentenceController < AuthenticationController
 
     render :json => {
       'result': true,
-      'sentences': ret_sentences,
-      'is_over': is_over
+      'sentences': ret_sentences,      
+      'lastid': lastid,
+      'numpage': numpage
     }
   end
 
