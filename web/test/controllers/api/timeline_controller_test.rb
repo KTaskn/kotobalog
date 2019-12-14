@@ -20,6 +20,12 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     assert json['access_token']
     access_token = json['access_token']
 
+    # 呼び出してチェック
+    get api_timeline_get_url
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+
     sentences = (0..num).map do |n|
       sprintf('テストセンテンス_%d', n)
     end
@@ -167,8 +173,8 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 2
     assert json['lastid']
+    assert json['numpage'] == 5
 
     assert json['sentences'].length == 5
 
@@ -184,15 +190,15 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     end
     
     get api_timeline_get_url, params: {
-      'offset': json['offset'],
+      'page': 2,
       'lastid': json['lastid']
     }
     json = JSON.parse(response.body)
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 3
     assert json['lastid'] == json['lastid']
+    assert json['numpage'] == 5
 
     assert json['sentences'].length == 5
 
@@ -223,15 +229,15 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
 
     # 途中挿入されたものが無視されて前回からのページネーションができてるかチェック
     get api_timeline_get_url, params: {
-      'offset': json['offset'],
+      'page': 3,
       'lastid': json['lastid']
     }
     json = JSON.parse(response.body)
     assert_response :success
     assert json['result']
     assert json['sentences']
-    assert json['offset'] == 4
     assert json['lastid'] == json['lastid']
+    assert json['numpage'] == 5
 
     assert json['sentences'].length == 5
 

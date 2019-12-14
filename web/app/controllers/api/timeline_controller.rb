@@ -1,19 +1,20 @@
 class Api::TimelineController < ApplicationController
   SIZE = 5
   def get
-    offset = params[:offset]
+    page = params[:page]
     lastid = params[:lastid]
 
-    if offset and lastid then
-      l_sentence = Sentence.where("id <= :id", id: lastid).order(id: :desc).limit(SIZE).offset((offset.to_i - 1) * SIZE)
-      offset = offset.to_i + 1
+    if page and lastid then
+      l_sentence = Sentence.where("id <= :id", id: lastid).order(id: :desc).limit(SIZE).offset((page.to_i - 1) * SIZE)
+      numpage = (Sentence.where("id <= :id", id: lastid).count / SIZE.to_f).ceil
     else
-      offset = 2
       l_sentence = Sentence.order(id: :desc).limit(SIZE)
-      if l_sentence then
-        lastid = l_sentence[0].id
-      else
+      if l_sentence.empty? then
         lastid = 0
+        numpage = 1
+      else
+        lastid = l_sentence[0].id
+        numpage = (Sentence.count / SIZE.to_f).ceil
       end
     end
     
@@ -31,8 +32,8 @@ class Api::TimelineController < ApplicationController
     render :json => {
       'result': true,
       'sentences': ret_sentences,
-      'offset': offset,
-      'lastid': lastid
+      'lastid': lastid,
+      'numpage': numpage
     }
   end
 end

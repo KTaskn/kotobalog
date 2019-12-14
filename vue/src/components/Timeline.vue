@@ -9,8 +9,8 @@
       ></TimelineCard>
 
     <b-pagination-nav
-      base-url="#"
-      :value="currentpage"
+      :link-gen="linkGen"
+      :v-model="currentpage"
       :number-of-pages="numpage"
       :hide-goto-end-buttons="true"
       @change="next"
@@ -24,35 +24,48 @@ import Global from '@/global/index'
 import TimelineCard from '@/components/TimelineCard'
 export default {
   mounted () {
-    this.get_timeline()
+    this.get_timeline({
+      'page': 1
+    })
   },
   data () {
     return {
       l_sentence: [
       ],
-      currentpage: 3,
-      numpage: 5
+      currentpage: 1,
+      numpage: 1,
+      lastid: 0
     }
   },
   components: {
     TimelineCard
   },
   methods: {
-    get_timeline () {
-      this.get_note('/timeline/get')
+    get_timeline (data = {}) {
+      this.get_note('/timeline/get', data)
     },
     get_note (url, data = {}) {
       return Global.get_wrapper(
-        url
+        url,
+        data
       ).then((res) => {
         if (res.data.result) {
           this.l_sentence = res.data.sentences
+          this.numpage = res.data.numpage
+          this.lastid = res.data.lastid
         } else {
         }
       })
     },
-    next () {
-      console.log('next')
+    next (pagenum) {
+      console.log('next', pagenum)
+      this.get_timeline({
+        'page': pagenum,
+        'lastid': this.lastid
+      })
+    },
+    linkGen (pagenum) {
+      return '/#'
     }
   }
 }
