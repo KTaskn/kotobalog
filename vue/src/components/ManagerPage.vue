@@ -7,8 +7,15 @@
       v-for="a_sentence in l_sentence"
       v-bind:key="a_sentence.id"
       v-bind:sentence="a_sentence"></SentenceCard>
-      <b-button v-on:click=pagedown v-if=show_pagedown>&#8249;</b-button>
-      <b-button v-on:click=pageup v-if=show_pageup>&#8250;</b-button>
+
+    <b-pagination-nav
+      :link-gen="linkGen"
+      :v-model="currentpage"
+      :number-of-pages="numpage"
+      :hide-goto-end-buttons="true"
+      @change="next"
+      align="center"
+    ></b-pagination-nav>
   </div>
 </template>
 
@@ -31,58 +38,38 @@ export default {
     return {
       l_sentence: [
       ],
-      page: 0,
       name: '',
-      is_over: true,
-      show_pagedown: false,
-      show_pageup: false
+      currentpage: 1,
+      numpage: 1,
+      lastid: 0
     }
   },
   methods: {
-    get_sentences () {
-      this.get_note('/sentence/getmine', {
-        offset: this.page
-      })
+    get_sentences (data = {}) {
+      this.get_note('/sentence/getmine', data)
     },
     get_note (url, data) {
       return Global.get_wrapper(
         url,
-        {
-          offset: data.offset
-        }
+        data
       ).then((res) => {
         if (res.data.result) {
           this.l_sentence = res.data.sentences
-          this.is_over = res.data.is_over
-          this.check_pagebutton()
+          this.numpage = res.data.numpage
+          this.lastid = res.data.lastid
         } else {
         }
       })
     },
-    pageup () {
-      if (!this.is_over) {
-        this.page += 1
-        this.get_sentences()
-      }
+    next (pagenum) {
+      this.get_sentences({
+        'page': pagenum,
+        'lastid': this.lastid
+      })
     },
-    pagedown () {
-      if (this.page > 0) {
-        this.page -= 1
-        this.get_sentences()
-      }
-    },
-    check_pagebutton () {
-      if (this.page === 0) {
-        this.show_pagedown = false
-      } else {
-        this.show_pagedown = true
-      }
-
-      if (this.is_over === true) {
-        this.show_pageup = false
-      } else {
-        this.show_pageup = true
-      }
+    linkGen (pagenum) {
+      scrollTo(0, 0)
+      return '#'
     }
   }
 }
