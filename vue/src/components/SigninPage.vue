@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-form @submit="onSubmit">
+    <b-form>
       <b-alert variant="danger" :show="haserror">ログインできませんでした</b-alert>
 
       <b-form-group id="input-group-1" class="text-left" label="ユーザ名 または メールアドレス:" label-for="input-1">
@@ -23,7 +23,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit">ログイン</b-button>
+      <b-button @click="onSubmit" type="button">ログイン</b-button>
     </b-form>
   </div>
 </template>
