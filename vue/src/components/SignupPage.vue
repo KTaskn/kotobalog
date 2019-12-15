@@ -1,13 +1,14 @@
 <template>
   <div class="container">
-    <b-form @submit="onSubmit">
-      <span>利用には登録が必要です。</span>
-      <span>アカウントをもっている場合は<router-link to="/signin">サインイン</router-link>してください</span>
-      <b-alert variant="danger" :show="haserror">作成できませんでした</b-alert>
-      <b-alert variant="danger" :show="form.name.length > 16">ユーザ名は半角英数字15文字以下の必要があります</b-alert>
-      <b-alert variant="warning" :show="is_duplicated_name">申し訳ございません。そのユーザ名はすでに他の方に利用されています。</b-alert>
-      <b-alert variant="warning" :show="is_duplicated_email">メールアドレスはすでに登録済みです。</b-alert>
-      <b-alert variant="danger" :show="form.password !== form.password_check">パスワードとパスワード（確認用）が一致しません</b-alert>
+    <span>利用には登録が必要です。</span>
+    <span>アカウントをもっている場合は<router-link to="/signin">サインイン</router-link>してください</span>
+    <b-alert variant="danger" :show="haserror">作成できませんでした</b-alert>
+    <b-alert variant="danger" :show="form.name.length > 16">ユーザ名は半角英数字15文字以下の必要があります</b-alert>
+    <b-alert variant="warning" :show="is_duplicated_name">申し訳ございません。そのユーザ名はすでに他の方に利用されています。</b-alert>
+    <b-alert variant="warning" :show="is_duplicated_email">メールアドレスはすでに登録済みです。</b-alert>
+    <b-alert variant="danger" :show="form.password !== form.password_check">パスワードとパスワード（確認用）が一致しません</b-alert>
+
+    <b-form>
       <b-form-group id="input-group-1" class="text-left signupinput" label="ユーザ名:" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -53,7 +54,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit">登録</b-button>
+      <b-button @click="onSubmit" type="button">登録</b-button>
     </b-form>
   </div>
 </template>
