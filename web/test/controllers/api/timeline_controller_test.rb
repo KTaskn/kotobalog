@@ -34,6 +34,10 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       sprintf('タイトル_%d', n)
     end
 
+    comments = (0..num).map do |n|
+      sprintf('コメント_%d', n)
+    end
+
     creator = 'テスト作者'
     publisher = 'テストパブリッシャー'
     isbn = ''
@@ -42,6 +46,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       post api_sentence_note_url, params: {
         'name': name,
         'title': titles[n],
+        'comment': comments[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
@@ -82,6 +87,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
 
@@ -136,6 +142,10 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       sprintf('タイトル_%d', n)
     end
 
+    comments = (0..num).map do |n|
+      sprintf('コメント_%d', n)
+    end
+
     creator = 'テスト作者'
     publisher = 'テストパブリッシャー'
     isbn = ''
@@ -144,6 +154,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       post api_sentence_note_url, params: {
         'name': name,
         'title': titles[n],
+        'comment': comments[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
@@ -186,6 +197,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
     
@@ -210,6 +222,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
 
@@ -217,6 +230,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
     post api_sentence_note_url, params: {
       'name': name,
       'title': 'other',
+      'comment': 'comments',
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
@@ -249,6 +263,7 @@ class Api::TimelineControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
   end

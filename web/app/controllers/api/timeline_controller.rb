@@ -25,7 +25,8 @@ class Api::TimelineController < ApplicationController
         'creator': a_sentence.book.creator,
         'publisher': a_sentence.book.publisher,
         'title': a_sentence.book.title,
-        'likenum': a_sentence.get_likes()
+        'likenum': a_sentence.get_likes(),
+        'comment': a_sentence.get_comment().comment
       }
     end
 

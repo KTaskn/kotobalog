@@ -4,6 +4,7 @@ class Api::SentenceController < AuthenticationController
   def note
     name = params[:name]
     title = params[:title]
+    comment = params[:comment]
     creator = params[:creator]
     publisher = params[:publisher]
     isbn = params[:isbn]
@@ -21,12 +22,18 @@ class Api::SentenceController < AuthenticationController
         )
       book.save!()
 
-      sentence = Sentence.create(
+      obj_sentence = Sentence.create(
         user: user,
         book: book,
         sentence: sentence
       )
-      sentence.save!()
+      obj_sentence.save!()
+
+      obj_comment = SentenceComment.create(
+        sentence: obj_sentence,
+        comment: comment
+      )
+      obj_comment.save!()
     end
 
     render :json => {
@@ -74,7 +81,8 @@ class Api::SentenceController < AuthenticationController
         'creator': a_sentence.book.creator,
         'publisher': a_sentence.book.publisher,
         'title': a_sentence.book.title,
-        'likenum': a_sentence.get_likes()
+        'likenum': a_sentence.get_likes(),
+        'comment': a_sentence.get_comment().comment
       }
     end
 

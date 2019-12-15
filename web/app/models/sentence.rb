@@ -44,4 +44,8 @@ class Sentence < ApplicationRecord
   def get_likes()
     return SentenceLike.where(sentence: self).count
   end
+
+  def get_comment()
+    return SentenceComment.find_by(sentence: self)
+  end
 end

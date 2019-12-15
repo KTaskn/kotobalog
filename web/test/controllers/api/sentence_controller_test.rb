@@ -22,10 +22,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     title = ''
     publisher = ''
     isbn = ''
+    comment = 'コメント'
 
     post api_sentence_note_url, params: {
       'name': name,
       'title': title,
+      'comment': comment,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
@@ -50,6 +52,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     assert sentence_load
     assert sentence_load.sentence == sentence
     assert sentence_load.book == book_load
+
+    comment_load = SentenceComment.find_by(sentence: sentence_load)
+    assert comment_load
+    assert comment_load.comment == comment
 
     post api_sentence_note_url, params: {
       'name': name
@@ -87,10 +93,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     title = ''
     publisher = ''
     isbn = ''
+    comment = 'コメント'
 
     post api_sentence_note_url, params: {
       'name': name,
       'title': title,
+      'comment': comment,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
@@ -131,10 +139,12 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     title = ''
     publisher = ''
     isbn = ''
+    comment = 'コメント'
 
     post api_sentence_note_url, params: {
       'name': name,
       'title': title,
+      'comment': comment,
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn
@@ -260,6 +270,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       sprintf('タイトル_%d', n)
     end
 
+    comments = (0..num).map do |n|
+      sprintf('コメント_%d', n)
+    end
+
     creator = 'テスト作者'
     publisher = 'テストパブリッシャー'
     isbn = ''
@@ -268,6 +282,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       post api_sentence_note_url, params: {
         'name': name,
         'title': titles[n],
+        'comment': comments[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
@@ -288,6 +303,11 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert sentence_load
       assert sentence_load.sentence == sentences[index]
       assert sentence_load.book == Book.find_by(title: titles[index])
+
+      comment_load = SentenceComment.find_by(sentence: sentence_load)
+      assert comment_load
+      assert comment_load.comment == comments[index]
+
       index += 1
     end
 
@@ -312,6 +332,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
 
@@ -334,6 +355,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['creator'] == creator
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
+      assert ent['comment'] == comments[index]
       index -= 1
     end
 
@@ -532,6 +554,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       sprintf('タイトル_%d', n)
     end
 
+    comments = (0..num).map do |n|
+      sprintf('コメント_%d', n)
+    end
+
     creator = 'テスト作者'
     publisher = 'テストパブリッシャー'
     isbn = ''
@@ -540,10 +566,11 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       post api_sentence_note_url, params: {
         'name': name,
         'title': titles[n],
+        'comment': comments[n],
         'creator': creator,
         'publisher': publisher,
         'isbn': isbn,
-        'sentence': sentences[n]
+        'sentence': sentences[n],
       },
       headers: {
         'Authorization': 'Token %s' % access_token
@@ -556,6 +583,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       post api_sentence_note_url, params: {
         'name': name2,
         'title': 'other',
+        'comment': 'comment other',
         'creator': 'other',
         'publisher': 'other',
         'isbn': '',
@@ -576,6 +604,10 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert sentence_load
       assert sentence_load.sentence == sentences[index]
       assert sentence_load.book == Book.find_by(title: titles[index])
+
+      comment_load = SentenceComment.find_by(sentence: sentence_load)
+      assert comment_load
+      assert comment_load.comment == comments[index]
       index += 1
     end
 
@@ -603,6 +635,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
     
@@ -631,6 +664,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
 
@@ -638,6 +672,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     post api_sentence_note_url, params: {
       'name': name,
       'title': 'other',
+      'comment': 'comment other',
       'creator': creator,
       'publisher': publisher,
       'isbn': isbn,
@@ -674,6 +709,7 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
       assert ent['publisher'] == publisher
       assert ent['title'] == titles[index]
       assert ent['likenum'] == 0
+      assert ent['comment'] == comments[index]
       index -= 1
     end
   end
