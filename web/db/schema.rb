@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_30_103219) do
+ActiveRecord::Schema.define(version: 2019_12_15_130646) do
 
   create_table "access_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -37,6 +37,14 @@ ActiveRecord::Schema.define(version: 2019_11_30_103219) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_refresh_tokens_on_user_id"
+  end
+
+  create_table "sentence_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "sentence_id"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sentence_id"], name: "index_sentence_comments_on_sentence_id"
   end
 
   create_table "sentence_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -70,6 +78,7 @@ ActiveRecord::Schema.define(version: 2019_11_30_103219) do
 
   add_foreign_key "access_tokens", "users"
   add_foreign_key "refresh_tokens", "users"
+  add_foreign_key "sentence_comments", "sentences"
   add_foreign_key "sentence_likes", "sentences"
   add_foreign_key "sentence_likes", "users"
   add_foreign_key "sentences", "books"

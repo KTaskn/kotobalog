@@ -11,6 +11,7 @@
         {{ card.creator }}
       </b-card-sub-title>
       <b-card-text v-if="show_text">{{ card.publisher }} {{ card.title }}</b-card-text>
+      <b-card-text>{{ card.comment }}</b-card-text>
     </b-card-body>
     <b-card-footer class="text-left">
       <div v-on:click="like">
@@ -44,6 +45,7 @@ export default {
         publisher: this.sentence.publisher,
         title: this.sentence.title,
         likenum: this.sentence.likenum,
+        comment: this.sentence.comment,
         likeit: false,
         waiting_process_islike: false
       },

@@ -1,5 +1,5 @@
 class Sentence < ApplicationRecord
-  validates :sentence, presence: true
+  validates :sentence, length: { maximum: 200 }, presence: true
 
   belongs_to :book
   belongs_to :user
@@ -43,5 +43,9 @@ class Sentence < ApplicationRecord
 
   def get_likes()
     return SentenceLike.where(sentence: self).count
+  end
+
+  def get_comment()
+    return SentenceComment.find_by(sentence: self)
   end
 end

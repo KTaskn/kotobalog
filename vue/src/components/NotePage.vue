@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-form @submit="onSubmit">
+    <b-form>
       <span>日常で出会ったお気に入りのコトバを記録しましょう</span>
       <span v-show=haserror>保存に失敗しました</span>
 
@@ -39,6 +39,26 @@
         class="float-right" size="sm">作者は不明です</b-button>
       </div>
 
+      <b-form-group id="input-group-6" class="text-left" label="コメント:" label-for="input-6">
+        <b-form-textarea
+          id="input-6"
+          v-model="form.comment"
+          type="text"
+          required
+          placeholder=""
+          v-b-tooltip.hover
+          title="コトバへの感想・コメントを記載しましょう"
+          rows="3"
+          max-rows="3"
+        ></b-form-textarea>
+      </b-form-group>
+
+      <div class="clearfix">
+        <b-button variant="danger"
+        @click="abbreviate_comment"
+        class="float-right" size="sm">コメントを省略する</b-button>
+      </div>
+
       <div class="clearfix">
         <b-button v-b-toggle.collapse class="float-left" size="sm">本の詳細を追加</b-button>
       </div>
@@ -74,7 +94,7 @@
         </b-collapse>
       </div>
 
-      <b-button type="submit">登録</b-button>
+      <b-button @click="onSubmit" type="button">登録</b-button>
     </b-form>
   </div>
 </template>
@@ -97,14 +117,18 @@ export default {
         creator: '',
         isbn: '',
         title: '',
-        publisher: ''
+        publisher: '',
+        comment: ''
       },
       haserror: false
     }
   },
   methods: {
-    creator_is_unknown: function (event) {
+    creator_is_unknown (event) {
       this.form.creator = '作者不明'
+    },
+    abbreviate_comment (event) {
+      this.form.comment = 'コメントは省略しました'
     },
     onSubmit (evt) {
       this.post_note('/sentence/note', this.form)
@@ -118,7 +142,8 @@ export default {
           creator: data.creator,
           publisher: data.publisher,
           isbn: data.isbn,
-          sentence: data.sentence
+          sentence: data.sentence,
+          comment: data.comment
         }
       ).then((res) => {
         if (res.data.result) {
