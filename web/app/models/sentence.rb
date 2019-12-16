@@ -1,5 +1,5 @@
 class Sentence < ApplicationRecord
-  validates :sentence, presence: true
+  validates :sentence, length: { maximum: 200 }, presence: true
 
   belongs_to :book
   belongs_to :user
