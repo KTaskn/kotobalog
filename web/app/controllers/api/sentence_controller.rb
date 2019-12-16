@@ -82,7 +82,7 @@ class Api::SentenceController < AuthenticationController
         'publisher': a_sentence.book.publisher,
         'title': a_sentence.book.title,
         'likenum': a_sentence.get_likes(),
-        'comment': a_sentence.get_comment().comment
+        'comment': a_sentence.get_comment().nil? ? '' : a_sentence.get_comment().comment
       }
     end
 

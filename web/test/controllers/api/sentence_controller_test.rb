@@ -714,5 +714,59 @@ class Api::SentenceControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "test get getmine not comment" do
+    name = 'test_name_1'
+    password = 'test_password'
+    email = 'email_1@example.com'
+    post api_user_signup_url, params: {
+        'name': name,
+        'password': password,
+        'password_check': password,
+        'email': email
+      }
+    
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+    assert json['access_token']
+    access_token = json['access_token']
+
+    user = User.find_by(name: name)
+    title = 'test_title'
+    creator = 'test_creator'
+    publisher = 'test_publisher'
+    isbn = 0
+
+    book = Book.create(
+        title: title,
+        creator: creator,
+        publisher: publisher,
+        isbn: isbn
+    )
+    book.save!()
+
+    text = 'text'
+    sentence = Sentence.create(
+        user: user,
+        book: book,
+        sentence: text
+    )
+    sentence.save!()
+
+    # 呼び出してチェック
+    get api_sentence_getmine_url, params: {
+      'name': name,
+      'page': 1
+    },
+    headers: {
+      'Authorization': 'Token %s' % access_token
+    }
+    json = JSON.parse(response.body)
+    assert_response :success
+    assert json['result']
+
+    assert json['sentences'][0]['comment'] == ''
+  end
+
   
 end
