@@ -3,7 +3,7 @@
     <span>利用には登録が必要です。</span>
     <span>アカウントをもっている場合は<router-link to="/signin">サインイン</router-link>してください</span>
     <b-alert variant="danger" :show="haserror">作成できませんでした</b-alert>
-    <b-alert variant="danger" :show="form.name.length > 16">ユーザ名は半角英数字15文字以下の必要があります</b-alert>
+    <b-alert variant="danger" :show="form.name.length > 16 || is_alphanum_name">ユーザ名は半角英数字15文字以下の必要があります</b-alert>
     <b-alert variant="warning" :show="is_duplicated_name">申し訳ございません。そのユーザ名はすでに他の方に利用されています。</b-alert>
     <b-alert variant="warning" :show="is_duplicated_email">メールアドレスはすでに登録済みです。</b-alert>
     <b-alert variant="danger" :show="form.password !== form.password_check">パスワードとパスワード（確認用）が一致しません</b-alert>
@@ -75,6 +75,7 @@ export default {
       },
       haserror: false,
       is_duplicated_name: false,
+      is_alphanum_name: false,
       is_duplicated_email: false
     }
   },
@@ -112,8 +113,16 @@ export default {
         }
       })
     },
+    checkname_is_alphanum (name) {
+      if (name.match(/^[A-Za-z0-9_]*$/)) {
+        this.is_alphanum_name = false
+      } else {
+        this.is_alphanum_name = true
+      }
+    },
     checkname () {
       this.get_namecheck('/user/namecheck', this.form.name)
+      this.checkname_is_alphanum(this.form.name)
     },
     get_namecheck (url, name) {
       return Global.get_wrapper(
