@@ -114,7 +114,7 @@ export default {
       })
     },
     checkname_is_alphanum (name) {
-      if (name.match(/^[A-Za-z0-9]*$/)) {
+      if (name.match(/^[A-Za-z0-9_]*$/)) {
         this.is_alphanum_name = false
       } else {
         this.is_alphanum_name = true
