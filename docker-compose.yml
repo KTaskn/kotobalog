@@ -44,6 +44,7 @@ services:
       - ./vue/dist:/www
       - ./nginx/www_http:/www_http
       - ./web/static:/assets
+      - ./nginx/staticpage:/staticpage
     links:
       - web
     ports:
