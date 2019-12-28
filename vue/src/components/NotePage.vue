@@ -2,7 +2,8 @@
   <div class="container">
     <b-form>
       <span>日常で出会ったお気に入りのコトバを記録しましょう</span>
-      <span v-show=haserror>保存に失敗しました</span>
+      <b-alert variant="danger" :show=haserror>保存に失敗しました</b-alert>
+      <b-alert variant="warning" :show="form.sentence.length > 200">申し訳ありません。コトバは２００文字以内です。</b-alert>
 
       <b-form-group id="input-group-1" class="text-left" label="コトバ:" label-for="input-1">
         <b-form-textarea
