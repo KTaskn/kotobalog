@@ -7,6 +7,9 @@ import SigninPage from '@/components/SigninPage'
 import NotePage from '@/components/NotePage'
 import ManagerPage from '@/components/ManagerPage'
 import NotfoundPage from '@/components/NotfoundPage'
+import TwitterOauth from '@/components/TwitterOauth'
+import PrivacyPolicyPage from '@/components/PrivacyPolicyPage'
+import TermsPage from '@/components/TermsPage'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
@@ -88,6 +91,21 @@ export default new Router({
       path: '/notfound',
       name: 'NotfoundPage',
       component: NotfoundPage
+    },
+    {
+      path: '/twitteroauth',
+      name: 'TwitterOauth',
+      component: TwitterOauth
+    },
+    {
+      path: '/privacypolicy',
+      name: 'PrivacyPolicyPage',
+      component: PrivacyPolicyPage
+    },
+    {
+      path: '/terms',
+      name: 'TermsPage',
+      component: TermsPage
     }
   ]
 })

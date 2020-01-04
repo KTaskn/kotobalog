@@ -15,7 +15,7 @@ class User < ApplicationRecord
         if password == password_check then
             # パスワードが一致しているかをチェック
             user = User.create(name: name, password: password, email: email)
-            return user.save()
+            return user.save!()
         else
             return false
         end
@@ -47,6 +47,10 @@ class User < ApplicationRecord
         else
             return false, nil, nil
         end
+    end
+
+    def force_signin()
+        return true, AccessToken.refresh(self), RefreshToken.refresh(self)
     end
 
     def signout

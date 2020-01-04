@@ -12,10 +12,14 @@ Rails.application.routes.draw do
     
     get 'user/namecheck'
     get 'user/emailcheck'
+    get 'user/twitteroauth'
+    get 'user/twitteroauth_callback'
+    get 'user/twitteroauth_get_userinfo'
     post 'user/signup'
     post 'user/signin'
     post 'user/signout'
     post 'user/refresh'
+    post 'user/twitter_signin'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

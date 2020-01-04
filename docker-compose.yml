@@ -18,7 +18,10 @@ services:
     command: bundle exec unicorn -p 3000 -c /app/config/unicorn.rb -E ${RAILS_ENV}
     environment:
       RAILS_ENV: ${RAILS_ENV}
+      TWITTER_CONSUMER_KEY: ${TWITTER_CONSUMER_KEY}
+      TWITTER_CONSUMER_SECRET: ${TWITTER_CONSUMER_SECRET}
       APP_DATABASE_PASSWORD: ${APP_DATABASE_PASSWORD}
+      TWITTER_OAUTH_CALLBACK_URL: ${TWITTER_OAUTH_CALLBACK_URL:-http://localhost:8900/api/user/twitteroauth_callback/}
     volumes:
       - /share
       - ./web:/app
