@@ -16,6 +16,9 @@
       @change="next"
       align="center"
     ></b-pagination-nav>
+
+    <RouterLink to="/privacypolicy">プライバシーポリシー</RouterLink>
+    <RouterLink to="/terms">利用規約</RouterLink>
   </div>
 </template>
 
