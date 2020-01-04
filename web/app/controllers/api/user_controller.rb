@@ -6,10 +6,7 @@ class Api::UserController < ApplicationController
     password = params[:password]
     password_check = params[:password_check]
     email = params[:email]
-    twitter_oauth_token = params[:twitter_oauth_token]
-
-
-    
+    twitter_oauth_token = params[:twitter_oauth_token]  
 
     ActiveRecord::Base.transaction do
       result = User.signup(
@@ -33,7 +30,7 @@ class Api::UserController < ApplicationController
                 user: user,
                 twitter_id: oauth.twitter_id
               )
-              twitter_info.save()
+              twitter_info.save!()
             end
           end
         end
@@ -210,9 +207,15 @@ class Api::UserController < ApplicationController
       redirect_to 'http://localhost:8900/#/signup', status: 303
     else
       oauth = TwitterOauth.find_by(oauth_token: oauth_token)
-      if oauth.get_profile(oauth_verifier) then
-        # 成功
-        redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+      if !oauth.nil? and oauth.set_profile(oauth_verifier) then
+        # ユーザ情報の取得成功
+        if UserTwitterInfomation.find_by(twitter_id: oauth.twitter_id) then
+          # アカウントが存在する
+          redirect_to 'http://localhost:8900/#/signin?oauth_token=' + oauth_token, status: 303
+        else
+          # アカウントが存在しない
+          redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+        end
       else
         # 失敗
         redirect_to 'http://localhost:8900/#/signup', status: 303
@@ -223,7 +226,10 @@ class Api::UserController < ApplicationController
   def twitteroauth_get_userinfo
     oauth_token = params[:oauth_token]
 
-    if oauth_token.nil? then
+    logger.info('oauth_token is')
+    logger.info(oauth_token)
+
+    if oauth_token.nil? or oauth_token.empty? then
       render :json => {
         'result': false
       }

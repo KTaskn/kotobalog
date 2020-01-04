@@ -15,7 +15,7 @@ class User < ApplicationRecord
         if password == password_check then
             # パスワードが一致しているかをチェック
             user = User.create(name: name, password: password, email: email)
-            return user.save()
+            return user.save!()
         else
             return false
         end

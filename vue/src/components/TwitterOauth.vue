@@ -52,9 +52,9 @@ export default {
     this.form.password = password
     this.form.password_check = password
 
-    this.oauth_token = this.$route.query.oauth_token
+    this.oauthToken = this.$route.query.oauth_token
 
-    this.get_userinfo('/user/twitteroauth_get_userinfo', this.oauth_token)
+    this.get_userinfo('/user/twitteroauth_get_userinfo', this.oauthToken)
   },
   components: {
   },
@@ -70,19 +70,19 @@ export default {
       is_duplicated_name: false,
       is_alphanum_name: false,
       is_duplicated_email: false,
-      oauth_token: ''
+      oauthToken: ''
     }
   },
   methods: {
     onSubmit (evt) {
-      this.post_signup('/user/signup', this.form, this.oauth_token)
+      this.post_signup('/user/signup', this.form, this.oauthToken)
       return ''
     },
-    get_userinfo (url, oauth_token) {
+    get_userinfo (url, oauthToken) {
       return Global.get_wrapper(
         url,
         {
-          oauth_token: oauth_token,
+          oauth_token: oauthToken
         }
       ).then((res) => {
         if (res.data.result) {
@@ -95,7 +95,7 @@ export default {
         }
       })
     },
-    post_signup (url, data, twitter_oauth_token) {
+    post_signup (url, data, twitterOauthToken) {
       return Global.post_wrapper(
         url,
         {
@@ -103,7 +103,7 @@ export default {
           name: data.name,
           password: data.password,
           password_check: data.password_check,
-          twitter_oauth_token: twitter_oauth_token
+          twitter_oauth_token: twitterOauthToken
         }
       ).then((res) => {
         if (res.data.result) {
@@ -133,7 +133,6 @@ export default {
       }
     },
     checkname () {
-      console.log('checkname')
       this.get_namecheck('/user/namecheck', this.form.name)
       this.checkname_is_alphanum(this.form.name)
     },

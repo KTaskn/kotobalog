@@ -22,7 +22,7 @@ class TwitterOauth < ApplicationRecord
         return request_token.authorize_url, request_token.token, request_token.secret
     end
 
-    def get_profile(oauth_verifier)
+    def set_profile(oauth_verifier)
         consumer_key = ENV['TWITTER_CONSUMER_KEY']
         consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
 
