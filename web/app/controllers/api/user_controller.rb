@@ -206,7 +206,7 @@ class Api::UserController < ApplicationController
     if oauth_token.nil? or oauth_verifier.nil? then
       # スマートに開発環境と本番環境で切り分けたい。うまくいかん。
       if ENV["RAILS_ENV"] == 'production' then
-        redirect_to '/#/signup', status: 303
+        redirect_to 'https://kotobanote.jp/#/signup', status: 303
       else
         redirect_to 'http://localhost:8900/#/signup', status: 303
       end
@@ -217,14 +217,14 @@ class Api::UserController < ApplicationController
         if UserTwitterInfomation.find_by(twitter_id: oauth.twitter_id) then
           # アカウントが存在する
           if ENV["RAILS_ENV"] == 'production' then
-            redirect_to '/#/signin?twitter_oauth_token=' + oauth_token, status: 303
+            redirect_to 'https://kotobanote.jp/#/signin?twitter_oauth_token=' + oauth_token, status: 303
           else
             redirect_to 'http://localhost:8900/#/signin?twitter_oauth_token=' + oauth_token, status: 303
           end
         else
           # アカウントが存在しない
           if ENV["RAILS_ENV"] == 'production' then
-            redirect_to '/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+            redirect_to 'https://kotobanote.jp/#/twitteroauth?oauth_token=' + oauth_token, status: 303
           else
             redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
           end
@@ -232,7 +232,7 @@ class Api::UserController < ApplicationController
       else
         # 失敗
         if ENV["RAILS_ENV"] == 'production' then
-          redirect_to '/#/signup', status: 303
+          redirect_to 'https://kotobanote.jp/#/signup', status: 303
         else
           redirect_to 'http://localhost:8900/#/signup', status: 303
         end
