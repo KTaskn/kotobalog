@@ -204,21 +204,38 @@ class Api::UserController < ApplicationController
     oauth_verifier = params[:oauth_verifier]
 
     if oauth_token.nil? or oauth_verifier.nil? then
-      redirect_to 'http://localhost:8900/#/signup', status: 303
+      # スマートに開発環境と本番環境で切り分けたい。うまくいかん。
+      if ENV["RAILS_ENV"] == 'production' then
+        redirect_to '/#/signup', status: 303
+      else
+        redirect_to 'http://localhost:8900/#/signup', status: 303
+      end
     else
       oauth = TwitterOauth.find_by(oauth_token: oauth_token)
       if !oauth.nil? and oauth.set_profile(oauth_verifier) then
         # ユーザ情報の取得成功
         if UserTwitterInfomation.find_by(twitter_id: oauth.twitter_id) then
           # アカウントが存在する
-          redirect_to 'http://localhost:8900/#/signin?twitter_oauth_token=' + oauth_token, status: 303
+          if ENV["RAILS_ENV"] == 'production' then
+            redirect_to '/#/signin?twitter_oauth_token=' + oauth_token, status: 303
+          else
+            redirect_to 'http://localhost:8900/#/signin?twitter_oauth_token=' + oauth_token, status: 303
+          end
         else
           # アカウントが存在しない
-          redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+          if ENV["RAILS_ENV"] == 'production' then
+            redirect_to '//#/twitteroauth?oauth_token=' + oauth_token, status: 303
+          else
+            redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+          end
         end
       else
         # 失敗
-        redirect_to 'http://localhost:8900/#/signup', status: 303
+        if ENV["RAILS_ENV"] == 'production' then
+          redirect_to '/#/signup', status: 303
+        else
+          redirect_to 'http://localhost:8900/#/signup', status: 303
+        end
       end
     end
   end
