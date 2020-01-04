@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'user/emailcheck'
     get 'user/twitteroauth'
     get 'user/twitteroauth_callback'
+    get 'user/twitteroauth_get_userinfo'
     post 'user/signup'
     post 'user/signin'
     post 'user/signout'

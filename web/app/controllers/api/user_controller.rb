@@ -6,36 +6,57 @@ class Api::UserController < ApplicationController
     password = params[:password]
     password_check = params[:password_check]
     email = params[:email]
+    twitter_oauth_token = params[:twitter_oauth_token]
 
-    result = User.signup(
-      name,
-      password,
-      password_check,
-      email
-    )
 
-    if result then
-      user = User.find_by(name: name)
-      
-      if user then
-        result, access_token, refresh_token = user.signin(password)
+    
+
+    ActiveRecord::Base.transaction do
+      result = User.signup(
+        name,
+        password,
+        password_check,
+        email
+      )
+
+      if result then
+        user = User.find_by(name: name)
+          
+        if user then
+          result, access_token, refresh_token = user.signin(password)
+
+          if !twitter_oauth_token.nil? and !twitter_oauth_token.empty? then
+            # twitterでのOAuth認証の場合
+            oauth = TwitterOauth.find_by(oauth_token: twitter_oauth_token)
+            if oauth then
+              twitter_info = UserTwitterInfomation.create(
+                user: user,
+                twitter_id: oauth.twitter_id
+              )
+              twitter_info.save()
+            end
+          end
+        end
+
+        render :json => {
+          'result': result,
+          'name': name,
+          'access_token': access_token.nil? ? '' : access_token.token,
+          'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
+          'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
+          'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
+        }
+      else
+        render :json => {
+          'result': false
+        }
       end
-
-      result_json = {
-        'result': result,
-        'name': name,
-        'access_token': access_token.nil? ? '' : access_token.token,
-        'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
-        'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
-        'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
-      }
-    else
-      result_json = {
-        'result': false
-      }
     end
 
-      render :json => result_json
+    rescue => ex
+      render :json => {
+        'result': false
+      }
   end
 
   def signin
@@ -186,11 +207,39 @@ class Api::UserController < ApplicationController
     oauth_verifier = params[:oauth_verifier]
 
     if oauth_token.nil? or oauth_verifier.nil? then
-      redirect_to 'http://localhost:8900/#/signup'
+      redirect_to 'http://localhost:8900/#/signup', status: 303
     else
       oauth = TwitterOauth.find_by(oauth_token: oauth_token)
-      oauth.get_profile(oauth_verifier)    
-      redirect_to 'http://localhost:8900/#/twitteroauth'
+      if oauth.get_profile(oauth_verifier) then
+        # 成功
+        redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
+      else
+        # 失敗
+        redirect_to 'http://localhost:8900/#/signup', status: 303
+      end
+    end
+  end
+
+  def twitteroauth_get_userinfo
+    oauth_token = params[:oauth_token]
+
+    if oauth_token.nil? then
+      render :json => {
+        'result': false
+      }
+    else
+      oauth = TwitterOauth.find_by(oauth_token: oauth_token)
+      if oauth.nil? then
+        render :json => {
+          'result': false
+        }
+      else
+        render :json => {
+          'result': true,
+          'email': oauth.email,
+          'screen_name': oauth.screen_name
+        }
+      end
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_04_010146) do
+ActiveRecord::Schema.define(version: 2020_01_04_111156) do
 
   create_table "access_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -75,6 +75,15 @@ ActiveRecord::Schema.define(version: 2020_01_04_010146) do
     t.string "oauth_token_secret"
     t.string "twitter_id"
     t.string "email"
+    t.string "screen_name"
+  end
+
+  create_table "user_twitter_infomations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "twitter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_twitter_infomations_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -92,4 +101,5 @@ ActiveRecord::Schema.define(version: 2020_01_04_010146) do
   add_foreign_key "sentence_likes", "users"
   add_foreign_key "sentences", "books"
   add_foreign_key "sentences", "users"
+  add_foreign_key "user_twitter_infomations", "users"
 end

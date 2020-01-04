@@ -76,7 +76,8 @@ class TwitterOauth < ApplicationRecord
             when Net::HTTPSuccess
                 response_body = JSON.parse(response.body)
                 self.twitter_id = response_body['id']
-                self.email = response_body['email']                
+                self.email = response_body['email']
+                self.screen_name = response_body['screen_name']
                 self.save()
                 return true
             else

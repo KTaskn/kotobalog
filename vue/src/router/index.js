@@ -91,7 +91,7 @@ export default new Router({
       component: NotfoundPage
     },
     {
-      path: '/twitteroauth_callback',
+      path: '/twitteroauth',
       name: 'TwitterOauth',
       component: TwitterOauth
     }

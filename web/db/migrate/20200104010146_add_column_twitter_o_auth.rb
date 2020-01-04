@@ -4,6 +4,7 @@ class AddColumnTwitterOAuth < ActiveRecord::Migration[5.2]
     add_column :twitter_oauths, :oauth_token_secret, :string
     add_column :twitter_oauths, :twitter_id, :string
     add_column :twitter_oauths, :email, :string
+    add_column :twitter_oauths, :screen_name, :string
   end
 
   def down
@@ -11,5 +12,6 @@ class AddColumnTwitterOAuth < ActiveRecord::Migration[5.2]
     remove_column :twitter_oauths, :oauth_token_secret, :string
     remove_column :twitter_oauths, :twitter_id, :string
     remove_column :twitter_oauths, :email, :string
+    remove_column :twitter_oauths, :screen_name, :string
   end
 end

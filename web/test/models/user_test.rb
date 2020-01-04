@@ -10,7 +10,7 @@ class UserTest < ActiveSupport::TestCase
 
     assert result
 
-    user_load = User.find_by(name: name)    
+    user_load = User.find_by(name: name)
     assert user_load.name == name
     assert user_load.email == email
     assert user_load.password_digest != password
