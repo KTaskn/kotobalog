@@ -18,6 +18,8 @@ services:
     command: bundle exec unicorn -p 3000 -c /app/config/unicorn.rb -E ${RAILS_ENV}
     environment:
       RAILS_ENV: ${RAILS_ENV}
+      TWITTER_CONSUMER_KEY: ${TWITTER_CONSUMER_KEY}
+      TWITTER_CONSUMER_SECRET: ${TWITTER_CONSUMER_SECRET}
       APP_DATABASE_PASSWORD: ${APP_DATABASE_PASSWORD}
     volumes:
       - /share

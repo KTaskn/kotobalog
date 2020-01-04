@@ -165,4 +165,32 @@ class Api::UserController < ApplicationController
       }, status: :bad_request
     end
   end
+
+  def twitteroauth
+    oauth_url, oauth_token, oauth_token_secret = TwitterOauth::request_token()
+
+    oauth = TwitterOauth.create(
+      oauth_token: oauth_token,
+      oauth_token_secret: oauth_token_secret
+    )
+    oauth.save()
+
+    render :json => {
+      'result': true,
+      'oauth_url': oauth_url
+    }
+  end
+
+  def twitteroauth_callback
+    oauth_token = params[:oauth_token]
+    oauth_verifier = params[:oauth_verifier]
+
+    if oauth_token.nil? or oauth_verifier.nil? then
+      redirect_to 'http://localhost:8900/#/signup'
+    else
+      oauth = TwitterOauth.find_by(oauth_token: oauth_token)
+      oauth.get_profile(oauth_verifier)    
+      redirect_to 'http://localhost:8900/#/twitteroauth'
+    end
+  end
 end
