@@ -16,7 +16,7 @@ class TwitterOauth < ApplicationRecord
         )
 
         request_token = consumer.get_request_token(
-            oauth_callback: 'http://localhost:8900/api/user/twitteroauth_callback/'
+            oauth_callback: ENV['TWITTER_OAUTH_CALLBACK_URL']
         )
 
         return request_token.authorize_url, request_token.token, request_token.secret

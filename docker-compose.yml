@@ -21,6 +21,7 @@ services:
       TWITTER_CONSUMER_KEY: ${TWITTER_CONSUMER_KEY}
       TWITTER_CONSUMER_SECRET: ${TWITTER_CONSUMER_SECRET}
       APP_DATABASE_PASSWORD: ${APP_DATABASE_PASSWORD}
+      TWITTER_OAUTH_CALLBACK_URL: ${TWITTER_OAUTH_CALLBACK_URL:-http://localhost:8900/api/user/twitteroauth_callback/}
     volumes:
       - /share
       - ./web:/app
