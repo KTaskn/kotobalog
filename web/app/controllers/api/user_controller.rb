@@ -211,7 +211,7 @@ class Api::UserController < ApplicationController
         # ユーザ情報の取得成功
         if UserTwitterInfomation.find_by(twitter_id: oauth.twitter_id) then
           # アカウントが存在する
-          redirect_to 'http://localhost:8900/#/signin?oauth_token=' + oauth_token, status: 303
+          redirect_to 'http://localhost:8900/#/signin?twitter_oauth_token=' + oauth_token, status: 303
         else
           # アカウントが存在しない
           redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
@@ -225,9 +225,6 @@ class Api::UserController < ApplicationController
 
   def twitteroauth_get_userinfo
     oauth_token = params[:oauth_token]
-
-    logger.info('oauth_token is')
-    logger.info(oauth_token)
 
     if oauth_token.nil? or oauth_token.empty? then
       render :json => {
@@ -245,6 +242,55 @@ class Api::UserController < ApplicationController
           'email': oauth.email,
           'screen_name': oauth.screen_name
         }
+      end
+    end
+  end
+
+  def twitter_signin
+    oauth_token = params[:oauth_token]
+
+    if oauth_token.nil? or oauth_token.empty? then
+      # oauthが取得できなかった
+      render :json => {
+        'result': false
+      }
+    else
+      # oauthが取得できた
+      oauth = TwitterOauth.find_by(oauth_token: oauth_token)
+
+      if oauth.nil? then
+        # 認証失敗
+        render :json => {
+          'result': false
+        }
+      else
+        # 認証成功
+        twitter_info = UserTwitterInfomation.find_by(
+          twitter_id: oauth.twitter_id
+        )
+
+        user = twitter_info.user
+        
+        result = false
+        if user then
+          result, access_token, refresh_token = user.force_signin()
+        end
+
+        if result then
+          result_json = {
+            'result': result,
+            'name': user.name,
+            'access_token': access_token.nil? ? '' : access_token.token,
+            'access_token_expiration': access_token.nil? ? '' : access_token.expiration,
+            'refresh_token': refresh_token.nil? ? '' : refresh_token.token,
+            'refresh_token_expiration': refresh_token.nil? ? '' : refresh_token.expiration
+          }
+        else
+          result_json = {
+            'result': result
+          }
+        end
+        render :json => result_json
       end
     end
   end

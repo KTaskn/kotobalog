@@ -49,6 +49,10 @@ class User < ApplicationRecord
         end
     end
 
+    def force_signin()
+        return true, AccessToken.refresh(self), RefreshToken.refresh(self)
+    end
+
     def signout
         access_token = AccessToken.find_by(user: self)
         access_token.remove()

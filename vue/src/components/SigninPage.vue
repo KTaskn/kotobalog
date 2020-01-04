@@ -8,8 +8,8 @@
 
     <b-row id="oauth-login">
       <b-col>
-        <b-button id="twitter-oauth-button">
-          <font-awesome-icon :icon="['fab', 'twitter']" size="1x" v-on:click="callTwitterOAuth"/>
+        <b-button id="twitter-oauth-button" @click="callTwitterOAuth">
+          <font-awesome-icon :icon="['fab', 'twitter']" size="1x"/>
           Twitterアカウントを利用してサインイン
         </b-button>
       </b-col>
@@ -57,6 +57,12 @@ import Global from '@/global/index'
 export default {
   components: {
   },
+  mounted () {
+    this.twitterOauthToken = this.$route.query.twitter_oauth_token
+    if (this.twitterOauthToken) {
+      this.twitter_signin('/user/twitter_signin', this.twitterOauthToken)
+    }
+  },
   data () {
     return {
       form: {
@@ -68,11 +74,50 @@ export default {
   },
   methods: {
     callTwitterOAuth () {
-
+      this.get_twitterOAuth('/user/twitteroauth')
+    },
+    get_twitterOAuth (url) {
+      return Global.get_wrapper(
+        url
+      ).then((res) => {
+        if (res.data.result) {
+          window.location = res.data.oauth_url
+        } else {
+          this.$eventHub.$emit('drop_show_signout')
+          this.haserror = true
+        }
+      })
     },
     onSubmit (evt) {
       this.post_signin('/user/signin', this.form)
       return ''
+    },
+    twitter_signin (url, twitterOauthToken) {
+      return Global.post_wrapper(
+        url,
+        {
+          oauth_token: twitterOauthToken
+        }
+      ).then((res) => {
+        console.log('signin')
+        if (res.data.result) {
+          localStorage.name = res.data.name
+          localStorage.access_token = res.data.access_token
+          localStorage.access_token_expiration = res.data.access_token_expiration
+          localStorage.refresh_token = res.data.refresh_token
+          localStorage.refresh_token_expiration = res.data.refresh_token_expiration
+          this.$router.push({ path: '/note' })
+          this.$eventHub.$emit('raise_show_signout')
+        } else {
+          localStorage.removeItem('name')
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('refresh_token')
+          localStorage.removeItem('access_token_expiration')
+          localStorage.removeItem('refresh_token_expiration')
+          this.$eventHub.$emit('drop_show_signout')
+          this.haserror = true
+        }
+      })
     },
     post_signin (url, data) {
       return Global.post_wrapper(

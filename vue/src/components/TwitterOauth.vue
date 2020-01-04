@@ -47,7 +47,6 @@ import Global from '@/global/index'
 
 export default {
   mounted () {
-    console.log()
     var password = this.make_password()
     this.form.password = password
     this.form.password_check = password
