@@ -224,7 +224,7 @@ class Api::UserController < ApplicationController
         else
           # アカウントが存在しない
           if ENV["RAILS_ENV"] == 'production' then
-            redirect_to '//#/twitteroauth?oauth_token=' + oauth_token, status: 303
+            redirect_to '/#/twitteroauth?oauth_token=' + oauth_token, status: 303
           else
             redirect_to 'http://localhost:8900/#/twitteroauth?oauth_token=' + oauth_token, status: 303
           end
