@@ -9,6 +9,7 @@ import ManagerPage from '@/components/ManagerPage'
 import NotfoundPage from '@/components/NotfoundPage'
 import TwitterOauth from '@/components/TwitterOauth'
 import PrivacyPolicyPage from '@/components/PrivacyPolicyPage'
+import WebORCPage from '@/components/WebORCPage'
 import TermsPage from '@/components/TermsPage'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
@@ -106,6 +107,11 @@ export default new Router({
       path: '/terms',
       name: 'TermsPage',
       component: TermsPage
+    },
+    {
+      path: '/weborc',
+      name: 'WebORCPage',
+      component: WebORCPage
     }
   ]
 })
