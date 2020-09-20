@@ -9,17 +9,12 @@
       ></canvas>
       <canvas ref="canvas" id="canvas2" width="250" height="250"
       ></canvas>
-      <ul>
-      <li class="capture" v-for="c in captures" v-bind:key="c.d">
-        <img v-bind:src="c" height="50" />
-      </li>
-      <p>{{ log }}</p>
-      </ul>
     </div>
   </div>
 </template>
 
 <script>
+const T = 3000
 const $body = document.querySelector('body')
 let scrollPosition = 0
 export default {
@@ -30,12 +25,17 @@ export default {
       captures: [],
       mouseDown: false,
       wbound: 0,
-      startX: 0,
-      startY: 0,
-      endX: 0,
-      endY: 0,
+      start: {
+        x: null,
+        y: null
+      },
+      end: {
+        x: null,
+        y: null
+      },
       context: null,
-      log: ''
+      droptime: null
+
     }
   },
   mounted () {
@@ -70,60 +70,59 @@ export default {
       console.log(this.captures)
     },
     startDraw (event) {
-      console.log('startDraw')
-      this.log += 'startDraw:' + this.startX + ',' + this.startY
       // マウスボタンが押された
       this.mouseDown = true
       // canvasの絶対座標を取得
       this.wbound = event.target.getBoundingClientRect()
       // マウスの座標（始点）をセット
-      // this.startX = event.clientX - this.wbound.left
-      // this.startY = event.clientY - this.wbound.top
-      this.startX = event.touches[0].clientX - this.wbound.left
-      this.startY = event.touches[0].clientY - this.wbound.top
+      this.start = {
+        x: event.touches[0].clientX - this.wbound.left,
+        y: event.touches[0].clientY - this.wbound.top
+      }
     },
     Draw (event) {
-      console.log('Draw')
-      // this.log += 'Draw'
       // マウスボタンが押されていれば描画
       if (this.mouseDown) {
-        // キャンバスの取得
-        this.canvas = document.getElementById('canvas')
-        // コンテキストの取得
-        this.context = this.canvas.getContext('2d')
         // マウスの座標(終点）を取得
-        this.endX = event.touches[0].clientX - this.wbound.left
-        this.endY = event.touches[0].clientY - this.wbound.top
+        this.end = {
+          x: event.touches[0].clientX - this.wbound.left,
+          y: event.touches[0].clientY - this.wbound.top
+        }
       }
     },
     endDraw (event) {
-      console.log('endDraw')
-      this.log += 'endDraw:' + this.endX + ',' + this.endY
       // マウスボタンが押されていれば描画
       if (this.mouseDown) {
-        var canvas2 = document.getElementById('canvas2')
-        // コンテキストの取得
-        var tmpContext = canvas2.getContext('2d')
+        if (this.context === null) {
+          var canvas2 = document.getElementById('canvas2')
+          // コンテキストの取得
+          this.context = canvas2.getContext('2d')
+          this.context.beginPath()
+        } else {
+          console.log('there is context')
+        }
 
         // パスの開始
+        this.context.moveTo(this.start.x - 10, this.start.y)
+        this.context.lineTo(this.start.x + 10, this.start.y)
+        this.context.lineTo(this.end.x + 10, this.end.y)
+        this.context.lineTo(this.end.x - 10, this.end.y)
+        this.context.lineTo(this.start.x - 10, this.start.y)
+        this.droptime = new Date()
+        setTimeout(() => {
+          this.Clip(this.context)
+        }, T)
         // マウスボタンが離された
         this.mouseDown = false
-
-        tmpContext.beginPath()
-        // // 線の色セット
-        tmpContext.strokestartYle = 'black'
-        // // 線の太さセット
-        tmpContext.lineWidth = 15
-        // // 線端の形状セット
-        tmpContext.lineCap = 'round'
-        tmpContext.moveTo(this.startX - 10, this.startY)
-        tmpContext.lineTo(this.startX + 10, this.startY)
-        tmpContext.lineTo(this.endX + 10, this.endY)
-        tmpContext.lineTo(this.endX - 10, this.endY)
-        tmpContext.lineTo(this.startX - 10, this.startY)
-        tmpContext.clip()
-
-        tmpContext.drawImage(this.video, 0, 0, 400, 400, 0, 0, 200, 200)
+      }
+    },
+    Clip (context) {
+      context.clip()
+      console.log('Clip')
+      var now = new Date()
+      console.log(now - this.droptime)
+      if (now - this.droptime > T - 100) {
+        context.drawImage(this.video, 0, 0, 400, 400, 0, 0, 200, 200)
       }
     }
   }
