@@ -6,14 +6,6 @@
         <p class="text-left">コトバノートは小説やポエムの一節、または偉人の名言、街角の看板、あなたの心にのこったコトバを記録するためのサービスです。</p>
       </b-col>
     </b-row>
-    <b-row id="oauth-login">
-      <b-col>
-        <b-button id="twitter-oauth-button" @click="callTwitterOAuth">
-          <font-awesome-icon :icon="['fab', 'twitter']" size="1x"/>
-          Twitterで登録/サインイン
-        </b-button>
-      </b-col>
-    </b-row>
   </b-container>
 </template>
 
