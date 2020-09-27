@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     get_timeline (data = {}) {
+      console.log('get_timeline')
       this.get_note('/timeline/get', data)
     },
     get_note (url, data = {}) {
